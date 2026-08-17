@@ -174,17 +174,17 @@ async function createEchoSpell(actor, uuid) {
     recovery: []
   };
   if (data.system.preparation && typeof data.system.preparation === "object") {
-    data.system.preparation.mode = "innate";
+    data.system.preparation.mode = "always";
     data.system.preparation.prepared = true;
   }
-  if ("method" in data.system) data.system.method = "innate";
+  if ("method" in data.system) data.system.method = "spell";
   if ("prepared" in data.system) {
     data.system.prepared = typeof data.system.prepared === "number" ? 1 : true;
   }
 
   for (const activity of Object.values(data.system.activities ?? {})) {
     activity.consumption ??= {};
-    activity.consumption.spellSlot = false;
+    activity.consumption.spellSlot = true;
     activity.consumption.targets ??= [];
     if (!activity.consumption.targets.some((target) => target.type === "itemUses")) {
       activity.consumption.targets.push({
