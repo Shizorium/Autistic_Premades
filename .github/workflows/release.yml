@@ -1,0 +1,49 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Prepare version
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+
+      - name: Patch module.json
+        run: |
+          jq --arg v "$VERSION" \
+             --arg url "https://github.com/${{ github.repository }}" \
+             --arg manifest "https://github.com/${{ github.repository }}/releases/latest/download/module.json" \
+             --arg download "https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/module.zip" \
+             '.version = $v | .url = $url | .manifest = $manifest | .download = $download' \
+             module.json > module.json.tmp && mv module.json.tmp module.json
+
+      - name: Create zip
+        run: |
+          mkdir -p dist/Autistic_Premades
+          rsync -a \
+            --exclude dist \
+            --exclude .git \
+            --exclude .github \
+            --exclude .gitignore \
+            ./ dist/Autistic_Premades/
+          cd dist && zip -r ../module.zip Autistic_Premades
+
+      - name: Update Release With Files
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: module.json,module.zip
+          tag: ${{ github.event.release.tag_name }}
+          omitBodyDuringUpdate: true
+          omitNameDuringUpdate: true
+          token: ${{ secrets.GITHUB_TOKEN }}
