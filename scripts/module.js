@@ -2,6 +2,7 @@ import { MODULE_ID } from "./lib/identifier.js";
 import { registerSettings } from "./lib/settings.js";
 import { registerBastionOfAmends } from "./features/bastion-of-amends.js";
 import { startLivingAltarReminder } from "./features/living-altar-of-stubbornness.js";
+import { registerFromTheAshes, promptFromTheAshesSideEffect } from "./features/from-the-ashes.js";
 
 Hooks.once("init", () => {
   console.log("Autistic Premades | Initialized");
@@ -21,6 +22,7 @@ function registerSocket() {
     if (!doc) return [];
     return doc.deleteEmbeddedDocuments(documentName, ids);
   });
+  socket.register("promptFromTheAshesSideEffect", promptFromTheAshesSideEffect);
   globalThis.autisticPremades ??= {};
   globalThis.autisticPremades.socket = socket;
 }
@@ -31,4 +33,5 @@ Hooks.once("ready", () => {
   registerSocket();
   registerBastionOfAmends();
   startLivingAltarReminder();
+  registerFromTheAshes();
 });

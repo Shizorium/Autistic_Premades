@@ -1,5 +1,3 @@
-2026/08/17-18:31:01.523 615c Delete type=3 #1
-2026/08/17-18:31:01.528 a5a4 Level-0 table #5: started
-2026/08/17-18:31:01.531 a5a4 Level-0 table #5: 2301 bytes OK
-2026/08/17-18:31:01.535 a5a4 Delete type=0 #3
-2026/08/17-18:31:01.535 a5a4 Manual compaction at level-0 from '!items!apBastionAmends' @ 72057594037927935 : 1 .. '!items.effects!apBastionAmends.apBastionMark001' @ 0 : 0; will stop at (end)
+2026/08/17-18:49:34.504 af90 Recovering log #16
+2026/08/17-18:49:34.506 af90 Delete type=0 #16
+2026/08/17-18:49:34.508 af90 Delete type=3 #15
