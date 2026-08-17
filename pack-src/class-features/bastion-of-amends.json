@@ -1,0 +1,168 @@
+{
+  "_id": "apBastionAmends",
+  "_key": "!items!apBastionAmends",
+  "name": "Bastion of Amends",
+  "type": "feat",
+  "img": "icons/magic/holy/barrier-shield-winged-blue.webp",
+  "system": {
+    "description": {
+      "value": "<p>Действием, используя заряд Проведения Энергии, вы можете заставить существ по выбору в 30 футах от вас пройти спасбросок Мудрости. При провале существа получают помеху на броски атаки против любого существа, кроме вас, на 1 минуту. Вне зависимости от результата спасброска вы получаете бонус к AC, равный количеству существ, на которых была применена способность (не больше +5).</p>",
+      "chat": ""
+    },
+    "source": {
+      "custom": "Autistic Premades",
+      "revision": 1,
+      "rules": "2014"
+    },
+    "identifier": "bastion-of-amends",
+    "type": {
+      "value": "class",
+      "subtype": "channelDivinity"
+    },
+    "requirements": "Paladin",
+    "uses": {
+      "spent": 0,
+      "max": "1",
+      "recovery": [
+        {
+          "period": "sr",
+          "type": "recoverAll"
+        }
+      ]
+    },
+    "activities": {
+      "apBastionSave001": {
+        "_id": "apBastionSave001",
+        "type": "save",
+        "name": "",
+        "sort": 0,
+        "activation": {
+          "type": "action",
+          "value": 1,
+          "condition": "",
+          "override": false
+        },
+        "consumption": {
+          "targets": [
+            {
+              "type": "itemUses",
+              "target": "",
+              "value": "1",
+              "scaling": {
+                "mode": "",
+                "formula": ""
+              }
+            }
+          ],
+          "scaling": {
+            "allowed": false,
+            "max": ""
+          },
+          "spellSlot": true
+        },
+        "description": {
+          "chatFlavor": ""
+        },
+        "duration": {
+          "concentration": false,
+          "value": "1",
+          "units": "minute",
+          "special": "",
+          "override": false
+        },
+        "effects": [
+          {
+            "_id": "apBastionMark001",
+            "onSave": false
+          }
+        ],
+        "range": {
+          "units": "ft",
+          "value": "30",
+          "special": "",
+          "override": false
+        },
+        "target": {
+          "template": {
+            "contiguous": false,
+            "type": "",
+            "size": "",
+            "units": "ft"
+          },
+          "affects": {
+            "count": "",
+            "type": "creature",
+            "choice": true,
+            "special": ""
+          },
+          "override": false,
+          "prompt": true
+        },
+        "uses": {
+          "spent": 0,
+          "max": "",
+          "recovery": []
+        },
+        "damage": {
+          "onSave": "none",
+          "parts": []
+        },
+        "save": {
+          "ability": ["wis"],
+          "dc": {
+            "calculation": "spellcasting",
+            "formula": ""
+          }
+        }
+      }
+    }
+  },
+  "effects": [
+    {
+      "_id": "apBastionMark001",
+      "_key": "!items.effects!apBastionAmends.apBastionMark001",
+      "name": "Bastion of Amends",
+      "img": "icons/magic/holy/barrier-shield-winged-blue.webp",
+      "type": "base",
+      "transfer": false,
+      "disabled": false,
+      "duration": {
+        "seconds": 60,
+        "rounds": 10
+      },
+      "changes": [
+        {
+          "key": "flags.Autistic_Premades.bastionOfAmends.marked",
+          "mode": 5,
+          "value": "1",
+          "priority": 20
+        }
+      ],
+      "flags": {
+        "Autistic_Premades": {
+          "bastionOfAmends": {
+            "marked": true
+          }
+        }
+      }
+    }
+  ],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "Autistic_Premades": {
+      "identifier": "bastion-of-amends"
+    }
+  },
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule0000000"
+  }
+}

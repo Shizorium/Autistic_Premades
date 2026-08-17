@@ -3,3 +3,5 @@ Thumbs.db
 *.bak
 dist/
 module.zip
+packs/**/LOCK
+node_modules/

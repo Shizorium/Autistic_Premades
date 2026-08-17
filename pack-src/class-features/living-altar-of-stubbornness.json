@@ -1,0 +1,49 @@
+{
+  "_id": "apLivingAltar001",
+  "_key": "!items!apLivingAltar001",
+  "name": "Живой Алтарь Упрямства",
+  "type": "feat",
+  "img": "icons/magic/holy/barrier-shield-winged-blue.webp",
+  "system": {
+    "description": {
+      "value": "<p>Существа в вашей ауре (включая вас) игнорируют штрафы первого уровня истощения и считают спасбросок от смерти критическим на 18–20.</p>",
+      "chat": ""
+    },
+    "source": {
+      "custom": "Autistic Premades",
+      "revision": 1,
+      "rules": "2014"
+    },
+    "identifier": "living-altar-of-stubbornness",
+    "type": {
+      "value": "class",
+      "subtype": ""
+    },
+    "requirements": "Paladin",
+    "uses": {
+      "spent": 0,
+      "max": "",
+      "recovery": []
+    },
+    "activities": {}
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "Autistic_Premades": {
+      "identifier": "living-altar-of-stubbornness"
+    }
+  },
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule0000000"
+  }
+}

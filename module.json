@@ -2,7 +2,7 @@
   "id": "Autistic_Premades",
   "title": "Autistic Premades",
   "description": "A Foundry VTT module of premade automations.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "compatibility": {
     "minimum": "13",
     "verified": "13"
@@ -16,15 +16,51 @@
   "esmodules": [
     "scripts/module.js"
   ],
+  "socket": true,
   "relationships": {
     "systems": [
       {
         "id": "dnd5e",
         "type": "system"
       }
+    ],
+    "requires": [
+      {
+        "id": "midi-qol",
+        "type": "module"
+      },
+      {
+        "id": "dae",
+        "type": "module"
+      },
+      {
+        "id": "times-up",
+        "type": "module"
+      },
+      {
+        "id": "socketlib",
+        "type": "module"
+      },
+      {
+        "id": "lib-wrapper",
+        "type": "module"
+      }
     ]
   },
+  "packs": [
+    {
+      "name": "ap-class-features",
+      "label": "Autistic Premades",
+      "path": "packs/ap-class-features",
+      "type": "Item",
+      "system": "dnd5e",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    }
+  ],
   "url": "https://github.com/Shizorium/Autistic_Premades",
   "manifest": "https://github.com/Shizorium/Autistic_Premades/releases/latest/download/module.json",
-  "download": "https://github.com/Shizorium/Autistic_Premades/releases/download/0.0.1/module.zip"
+  "download": "https://github.com/Shizorium/Autistic_Premades/releases/download/0.0.2/module.zip"
 }
