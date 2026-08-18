@@ -1,0 +1,73 @@
+{
+  "_id": "apDamageToOne01",
+  "_key": "!items!apDamageToOne01",
+  "name": "Урон до 1",
+  "type": "feat",
+  "img": "icons/svg/shield.svg",
+  "system": {
+    "description": {
+      "value": "<p>Пока эта особенность есть на существе, любой получаемый им урон уменьшается до <strong>1</strong>.</p><p>Эффект вешается сам, как только предмет попадает на лист. Лечение не затрагивается. Удалите предмет, чтобы вернуть обычный урон.</p>",
+      "chat": ""
+    },
+    "source": {
+      "custom": "Autistic Premades",
+      "revision": 1,
+      "rules": "2014"
+    },
+    "identifier": "damage-to-one",
+    "type": {
+      "value": "feat",
+      "subtype": ""
+    },
+    "requirements": "",
+    "uses": {
+      "spent": 0,
+      "max": "",
+      "recovery": []
+    },
+    "activities": {}
+  },
+  "effects": [
+    {
+      "_id": "apDmgToOneFx001",
+      "_key": "!items.effects!apDamageToOne01.apDmgToOneFx001",
+      "name": "Урон до 1",
+      "img": "icons/svg/shield.svg",
+      "type": "base",
+      "transfer": true,
+      "disabled": false,
+      "duration": {},
+      "changes": [
+        {
+          "key": "flags.Autistic_Premades.damageToOne",
+          "mode": 5,
+          "value": "1",
+          "priority": 20
+        }
+      ],
+      "flags": {
+        "Autistic_Premades": {
+          "damageToOne": true
+        }
+      }
+    }
+  ],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "Autistic_Premades": {
+      "identifier": "damage-to-one"
+    }
+  },
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule0000000"
+  }
+}

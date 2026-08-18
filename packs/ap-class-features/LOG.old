@@ -1,3 +1,5 @@
-2026/08/17-18:49:34.504 af90 Recovering log #16
-2026/08/17-18:49:34.506 af90 Delete type=0 #16
-2026/08/17-18:49:34.508 af90 Delete type=3 #15
+2026/08/18-12:10:29.567 6218 Delete type=3 #1
+2026/08/18-12:10:29.572 5754 Level-0 table #5: started
+2026/08/18-12:10:29.573 5754 Level-0 table #5: 7167 bytes OK
+2026/08/18-12:10:29.574 5754 Delete type=0 #3
+2026/08/18-12:10:29.574 5754 Manual compaction at level-0 from '!items!apBastionAmends' @ 72057594037927935 : 1 .. '!items.effects!apDamageToOne01.apDmgToOneFx001' @ 0 : 0; will stop at (end)

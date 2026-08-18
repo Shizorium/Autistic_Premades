@@ -67,6 +67,16 @@ const SIDE_EFFECTS = [
     id: "celestial",
     name: "Небесное",
     description: "В бою область 20 фт. заливает концентрированный свет Уробороса. Днём все цели в области должны преуспеть в спасброске Выносливости по сложности 20 или будут Ослеплены до конца твоего следующего хода, и независимо от спасброска получат лучистый урон, равный 5 + 5 за уровень ячейки. Ночью цели вместо этого будут заморожены, снижая их скорость до 0 и вместо этого нанося такой же урон, но холодом. В нарративе позволяет в области мили временно сменить активное светило, сменив день ночью и наоборот."
+  },
+  {
+    id: "zenith",
+    name: "Зенит",
+    description: "???"
+  },
+  {
+    id: "gloom",
+    name: "Мрак",
+    description: "???"
   }
 ];
 
@@ -213,8 +223,54 @@ async function onEchoCast(item) {
   const spellName = item.name;
   const actorName = actor.name;
   const itemId = item.id;
+  await preserveConcentration(actor, item);
   await mutateActor(actor, "deleteEmbeddedDocuments", "Item", [itemId]);
   await requestSideEffectPrompt({ spellName, actorName });
+}
+
+async function preserveConcentration(actor, item) {
+  await waitForConcentration(actor, item);
+  const effects = getConcentrationEffects(actor, item);
+  if (!effects.length) return;
+
+  const snapshot = item.toObject();
+  delete snapshot._id;
+  await mutateActor(actor, "updateEmbeddedDocuments", "ActiveEffect", effects.map((effect) => ({
+    _id: effect.id,
+    origin: actor.uuid,
+    "flags.dnd5e.item.id": "",
+    "flags.dnd5e.item.uuid": "",
+    "flags.dnd5e.item.data": snapshot
+  })));
+}
+
+function getConcentrationEffects(actor, item) {
+  const concentrating = CONFIG.specialStatusEffects?.CONCENTRATING;
+  const effects = [];
+  for (const effect of actor.effects) {
+    const concentratingOn = concentrating
+      ? effect.statuses?.has(concentrating)
+      : false;
+    if (!concentratingOn && !actor.concentration?.effects?.has(effect)) continue;
+    const data = effect.flags?.dnd5e?.item ?? {};
+    if (data.id === item.id || data.uuid === item.uuid || data.data?._id === item.id) {
+      effects.push(effect);
+    }
+  }
+  return effects;
+}
+
+function requiresConcentration(item) {
+  if (item.system?.properties?.has?.("concentration")) return true;
+  return Object.values(item.system?.activities ?? {}).some((activity) => activity.duration?.concentration);
+}
+
+async function waitForConcentration(actor, item) {
+  if (!requiresConcentration(item)) return;
+  for (let attempt = 0; attempt < 20; attempt++) {
+    if (getConcentrationEffects(actor, item).length) return;
+    await new Promise((resolve) => setTimeout(resolve, 50));
+  }
 }
 
 async function requestSideEffectPrompt(payload) {
