@@ -1,0 +1,113 @@
+{
+  "_id": "apFadeSerums0001",
+  "_key": "!items!apFadeSerums0001",
+  "name": "????? ?????",
+  "type": "feat",
+  "img": "icons/consumables/potions/potion-bottle-corked-labeled-green.webp",
+  "system": {
+    "description": {
+      "value": "<p><em>В какой-то момент вы перестали кричать. Стало так тихо. Я был последним, кто перестал молить о прощении.</em></p><p>При использовании ролится 1д4 (результат не повторяется, пока не пройдёт полный круг). В инвентаре появляется сыворотка. Никто не может воспроизвести эти сыворотки. Это невозможно. Они пропадают после использования.</p><ul><li><strong>9827-диротфирТ</strong> — 12d8 урона огнём. Спасбросок Выносливости DC 22. Сфера 20 фт. Расплавляет камень за секунды.</li><li><strong>себеН ьворК</strong> — союзник, который выпьет эту сыворотку, навсегда получит +1 к желаемой характеристике (выше максимума; не действует повторно на того же выпившего).</li><li><strong>ыцирЖ ызелС</strong> — полностью восстанавливает спеллпоинты или ячейки.</li><li><strong>иретаМ еинащорП</strong> — полностью восстанавливает ПЗ.</li></ul>",
+      "chat": ""
+    },
+    "source": {
+      "custom": "Autistic Premades",
+      "revision": 1,
+      "rules": "2014"
+    },
+    "identifier": "fade-serums",
+    "type": {
+      "value": "class",
+      "subtype": ""
+    },
+    "requirements": "Fighter 5th level",
+    "uses": {
+      "spent": 0,
+      "max": "",
+      "recovery": []
+    },
+    "activities": {
+      "apFadeSerumsUse1": {
+        "_id": "apFadeSerumsUse1",
+        "type": "utility",
+        "name": "",
+        "sort": 0,
+        "activation": {
+          "type": "action",
+          "value": 1,
+          "condition": "",
+          "override": false
+        },
+        "consumption": {
+          "targets": [],
+          "scaling": {
+            "allowed": false,
+            "max": ""
+          },
+          "spellSlot": true
+        },
+        "description": {
+          "chatFlavor": ""
+        },
+        "duration": {
+          "concentration": false,
+          "value": "",
+          "units": "",
+          "special": "",
+          "override": false
+        },
+        "effects": [],
+        "range": {
+          "units": "self",
+          "special": "",
+          "override": false
+        },
+        "target": {
+          "template": {
+            "contiguous": false,
+            "type": "",
+            "size": "",
+            "units": "ft"
+          },
+          "affects": {
+            "count": "",
+            "type": "self",
+            "choice": false,
+            "special": ""
+          },
+          "override": false,
+          "prompt": false
+        },
+        "uses": {
+          "spent": 0,
+          "max": "",
+          "recovery": []
+        },
+        "roll": {
+          "formula": "",
+          "name": "",
+          "prompt": false,
+          "visible": false
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "Autistic_Premades": {
+      "identifier": "fade-serums"
+    }
+  },
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule0000000"
+  }
+}

@@ -1,0 +1,184 @@
+{
+  "_id": "apFadeSerumFire01",
+  "_key": "!items!apFadeSerumFire01",
+  "name": "9827-диротфирТ",
+  "type": "consumable",
+  "img": "icons/consumables/potions/potion-flask-corked-orange.webp",
+  "system": {
+    "description": {
+      "value": "<p>Наносит 12d8 урона огнём. Спасбросок Выносливости DC 22. Сфера 20 фт. Расплавляет камень за секунды.</p><p>Никто не может воспроизвести эту сыворотку. Это невозможно.</p>",
+      "chat": ""
+    },
+    "source": {
+      "custom": "Autistic Premades",
+      "revision": 1,
+      "rules": "2014"
+    },
+    "identifier": "fade-serum-fire",
+    "identified": true,
+    "unidentified": {
+      "name": "",
+      "description": ""
+    },
+    "container": null,
+    "quantity": 1,
+    "weight": {
+      "value": 0.1,
+      "units": "lb"
+    },
+    "price": {
+      "value": 0,
+      "denomination": "gp"
+    },
+    "rarity": "",
+    "attunement": "",
+    "attuned": false,
+    "equipped": false,
+    "type": {
+      "value": "potion",
+      "subtype": ""
+    },
+    "properties": ["mgc"],
+    "magicalBonus": "",
+    "damage": {
+      "base": {
+        "number": null,
+        "denomination": null,
+        "bonus": "",
+        "types": [],
+        "custom": {
+          "enabled": false,
+          "formula": ""
+        },
+        "scaling": {
+          "mode": "",
+          "number": 1,
+          "formula": ""
+        }
+      },
+      "replace": false
+    },
+    "uses": {
+      "spent": 0,
+      "max": "1",
+      "recovery": [],
+      "autoDestroy": true
+    },
+    "activities": {
+      "apSerumFireSave01": {
+        "_id": "apSerumFireSave01",
+        "type": "save",
+        "name": "",
+        "sort": 0,
+        "activation": {
+          "type": "action",
+          "value": 1,
+          "condition": "",
+          "override": false
+        },
+        "consumption": {
+          "targets": [
+            {
+              "type": "itemUses",
+              "target": "",
+              "value": "1",
+              "scaling": {
+                "mode": "",
+                "formula": ""
+              }
+            }
+          ],
+          "scaling": {
+            "allowed": false,
+            "max": ""
+          },
+          "spellSlot": true
+        },
+        "description": {
+          "chatFlavor": ""
+        },
+        "duration": {
+          "concentration": false,
+          "value": "",
+          "units": "inst",
+          "special": "",
+          "override": false
+        },
+        "effects": [],
+        "range": {
+          "units": "ft",
+          "value": "20",
+          "special": "",
+          "override": false
+        },
+        "target": {
+          "template": {
+            "contiguous": false,
+            "type": "sphere",
+            "size": "20",
+            "units": "ft"
+          },
+          "affects": {
+            "count": "",
+            "type": "creature",
+            "choice": false,
+            "special": ""
+          },
+          "override": false,
+          "prompt": true
+        },
+        "uses": {
+          "spent": 0,
+          "max": "",
+          "recovery": []
+        },
+        "damage": {
+          "onSave": "half",
+          "parts": [
+            {
+              "number": 12,
+              "denomination": 8,
+              "bonus": "",
+              "types": ["fire"],
+              "custom": {
+                "enabled": false,
+                "formula": ""
+              },
+              "scaling": {
+                "mode": "",
+                "number": 1,
+                "formula": ""
+              }
+            }
+          ]
+        },
+        "save": {
+          "ability": ["con"],
+          "dc": {
+            "calculation": "",
+            "formula": "22"
+          }
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "Autistic_Premades": {
+      "identifier": "fade-serum-fire"
+    }
+  },
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule0000000"
+  }
+}

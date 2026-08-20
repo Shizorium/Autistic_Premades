@@ -1,0 +1,90 @@
+{
+  "_id": "apLegendResist01",
+  "_key": "!items!apLegendResist01",
+  "name": "Легендарное сопротивление",
+  "type": "feat",
+  "img": "icons/magic/defensive/shield-barrier-flaming-diamond-teal.webp",
+  "system": {
+    "description": {
+      "value": "<p>Один раз вы можете преуспеть в проваленном спасброске. Использование тратит 15% максимальных ПЗ.</p><p>Восстанавливается на долгом отдыхе.</p>",
+      "chat": ""
+    },
+    "source": {
+      "custom": "Autistic Premades",
+      "revision": 1,
+      "rules": "2014"
+    },
+    "identifier": "legendary-resistance",
+    "type": {
+      "value": "class",
+      "subtype": ""
+    },
+    "requirements": "Fighter 3rd level",
+    "uses": {
+      "spent": 0,
+      "max": "1",
+      "recovery": [
+        {
+          "period": "lr",
+          "type": "recoverAll"
+        }
+      ]
+    },
+    "activities": {}
+  },
+  "effects": [
+    {
+      "_id": "apFadeLRFx000001",
+      "_key": "!items.effects!apLegendResist01.apFadeLRFx000001",
+      "name": "Легендарное сопротивление",
+      "img": "icons/magic/defensive/shield-barrier-flaming-diamond-teal.webp",
+      "type": "base",
+      "transfer": true,
+      "disabled": false,
+      "duration": {},
+      "changes": [
+        {
+          "key": "flags.midi-qol.optional.apFadeLR.label",
+          "mode": 5,
+          "value": "Легендарное сопротивление",
+          "priority": 20
+        },
+        {
+          "key": "flags.midi-qol.optional.apFadeLR.count",
+          "mode": 5,
+          "value": "ItemUses.identifier.legendary-resistance",
+          "priority": 20
+        },
+        {
+          "key": "flags.midi-qol.optional.apFadeLR.save.fail.all",
+          "mode": 5,
+          "value": "success",
+          "priority": 20
+        }
+      ],
+      "flags": {
+        "Autistic_Premades": {
+          "legendaryResistance": true
+        }
+      }
+    }
+  ],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "Autistic_Premades": {
+      "identifier": "legendary-resistance"
+    }
+  },
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule0000000"
+  }
+}

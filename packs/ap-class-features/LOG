@@ -1,7 +1,5 @@
-2026/08/18-12:15:04.362 61c8 Recovering log #4
-2026/08/18-12:15:04.362 61c8 Recovering log #8
-2026/08/18-12:15:04.362 61c8 Level-0 table #7: started
-2026/08/18-12:15:04.364 61c8 Level-0 table #7: 3069 bytes OK
-2026/08/18-12:15:04.366 61c8 Delete type=0 #4
-2026/08/18-12:15:04.367 61c8 Delete type=0 #8
-2026/08/18-12:15:04.367 61c8 Delete type=3 #2
+2026/08/20-12:13:52.781 5654 Delete type=3 #1
+2026/08/20-12:13:52.789 57f0 Level-0 table #5: started
+2026/08/20-12:13:52.793 57f0 Level-0 table #5: 18412 bytes OK
+2026/08/20-12:13:52.797 57f0 Delete type=0 #3
+2026/08/20-12:13:52.797 57f0 Manual compaction at level-0 from '!items!apBastionAmends' @ 72057594037927935 : 1 .. '!items.effects!apLegendResist01.apFadeLRFx000001' @ 0 : 0; will stop at (end)

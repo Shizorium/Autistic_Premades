@@ -2,7 +2,7 @@
   "id": "Autistic_Premades",
   "title": "Autistic Premades",
   "description": "A Foundry VTT module of premade automations.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "compatibility": {
     "minimum": "13",
     "verified": "13"
@@ -44,6 +44,14 @@
       {
         "id": "lib-wrapper",
         "type": "module"
+      },
+      {
+        "id": "sequencer",
+        "type": "module"
+      },
+      {
+        "id": "fxmaster",
+        "type": "module"
       }
     ]
   },
@@ -62,5 +70,5 @@
   ],
   "url": "https://github.com/Shizorium/Autistic_Premades",
   "manifest": "https://github.com/Shizorium/Autistic_Premades/releases/latest/download/module.json",
-  "download": "https://github.com/Shizorium/Autistic_Premades/releases/download/0.0.3/module.zip"
+  "download": "https://github.com/Shizorium/Autistic_Premades/releases/download/0.0.4/module.zip"
 }

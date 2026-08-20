@@ -1,0 +1,113 @@
+{
+  "_id": "apSandevistan001",
+  "_key": "!items!apSandevistan001",
+  "name": "??????я? ????л ?о? ?????и",
+  "type": "feat",
+  "img": "icons/magic/lightning/bolt-forked-large-green.webp",
+  "system": {
+    "description": {
+      "value": "<p>Тоггл. При включении ваша скорость увеличивается втрое. Каждое существо, рядом с которым вы проноситесь, получает урон молнией, равный половине уровня воина (округление вверх). Существо не может получить этот урон чаще раза в раунд.</p><p>Для визуальных эффектов нужны Sequencer, FXMaster и паки JB2A (<code>jb2a.token_stage.round.green.02.02</code>).</p>",
+      "chat": ""
+    },
+    "source": {
+      "custom": "Autistic Premades",
+      "revision": 1,
+      "rules": "2014"
+    },
+    "identifier": "sandevistan",
+    "type": {
+      "value": "class",
+      "subtype": ""
+    },
+    "requirements": "Fighter 3rd level",
+    "uses": {
+      "spent": 0,
+      "max": "",
+      "recovery": []
+    },
+    "activities": {
+      "apSandyToggle001": {
+        "_id": "apSandyToggle001",
+        "type": "utility",
+        "name": "Тоггл",
+        "sort": 0,
+        "activation": {
+          "type": "action",
+          "value": 1,
+          "condition": "",
+          "override": false
+        },
+        "consumption": {
+          "targets": [],
+          "scaling": {
+            "allowed": false,
+            "max": ""
+          },
+          "spellSlot": true
+        },
+        "description": {
+          "chatFlavor": ""
+        },
+        "duration": {
+          "concentration": false,
+          "value": "",
+          "units": "",
+          "special": "",
+          "override": false
+        },
+        "effects": [],
+        "range": {
+          "units": "self",
+          "special": "",
+          "override": false
+        },
+        "target": {
+          "template": {
+            "contiguous": false,
+            "type": "",
+            "size": "",
+            "units": "ft"
+          },
+          "affects": {
+            "count": "",
+            "type": "self",
+            "choice": false,
+            "special": ""
+          },
+          "override": false,
+          "prompt": false
+        },
+        "uses": {
+          "spent": 0,
+          "max": "",
+          "recovery": []
+        },
+        "roll": {
+          "formula": "",
+          "name": "",
+          "prompt": false,
+          "visible": false
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "Autistic_Premades": {
+      "identifier": "sandevistan"
+    }
+  },
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule0000000"
+  }
+}

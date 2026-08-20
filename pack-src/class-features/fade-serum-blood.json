@@ -1,0 +1,162 @@
+{
+  "_id": "apFadeSerumBlood1",
+  "_key": "!items!apFadeSerumBlood1",
+  "name": "себеН ьворК",
+  "type": "consumable",
+  "img": "icons/consumables/potions/potion-bottle-corked-labeled-red.webp",
+  "system": {
+    "description": {
+      "value": "<p>Союзник, который выпьет эту сыворотку, навсегда получит +1 к желаемой характеристике (выше максимума). Не имеет эффекта второй раз для одного и того же выпившего.</p><p>Никто не может воспроизвести эту сыворотку. Это невозможно.</p>",
+      "chat": ""
+    },
+    "source": {
+      "custom": "Autistic Premades",
+      "revision": 1,
+      "rules": "2014"
+    },
+    "identifier": "fade-serum-blood",
+    "identified": true,
+    "unidentified": {
+      "name": "",
+      "description": ""
+    },
+    "container": null,
+    "quantity": 1,
+    "weight": {
+      "value": 0.1,
+      "units": "lb"
+    },
+    "price": {
+      "value": 0,
+      "denomination": "gp"
+    },
+    "rarity": "",
+    "attunement": "",
+    "attuned": false,
+    "equipped": false,
+    "type": {
+      "value": "potion",
+      "subtype": ""
+    },
+    "properties": ["mgc"],
+    "magicalBonus": "",
+    "damage": {
+      "base": {
+        "number": null,
+        "denomination": null,
+        "bonus": "",
+        "types": [],
+        "custom": {
+          "enabled": false,
+          "formula": ""
+        },
+        "scaling": {
+          "mode": "",
+          "number": 1,
+          "formula": ""
+        }
+      },
+      "replace": false
+    },
+    "uses": {
+      "spent": 0,
+      "max": "1",
+      "recovery": [],
+      "autoDestroy": true
+    },
+    "activities": {
+      "apSerumDrinkBld1": {
+        "_id": "apSerumDrinkBld1",
+        "type": "utility",
+        "name": "Выпить",
+        "sort": 0,
+        "activation": {
+          "type": "action",
+          "value": 1,
+          "condition": "",
+          "override": false
+        },
+        "consumption": {
+          "targets": [
+            {
+              "type": "itemUses",
+              "target": "",
+              "value": "1",
+              "scaling": {
+                "mode": "",
+                "formula": ""
+              }
+            }
+          ],
+          "scaling": {
+            "allowed": false,
+            "max": ""
+          },
+          "spellSlot": true
+        },
+        "description": {
+          "chatFlavor": ""
+        },
+        "duration": {
+          "concentration": false,
+          "value": "",
+          "units": "",
+          "special": "",
+          "override": false
+        },
+        "effects": [],
+        "range": {
+          "units": "touch",
+          "special": "",
+          "override": false
+        },
+        "target": {
+          "template": {
+            "contiguous": false,
+            "type": "",
+            "size": "",
+            "units": "ft"
+          },
+          "affects": {
+            "count": "1",
+            "type": "creature",
+            "choice": false,
+            "special": ""
+          },
+          "override": false,
+          "prompt": true
+        },
+        "uses": {
+          "spent": 0,
+          "max": "",
+          "recovery": []
+        },
+        "roll": {
+          "formula": "",
+          "name": "",
+          "prompt": false,
+          "visible": false
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "Autistic_Premades": {
+      "identifier": "fade-serum-blood"
+    }
+  },
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule0000000"
+  }
+}

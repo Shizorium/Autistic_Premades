@@ -1,0 +1,96 @@
+{
+  "_id": "apFadeSubclass01",
+  "_key": "!items!apFadeSubclass01",
+  "name": "??и???? ????????? ????",
+  "type": "subclass",
+  "img": "icons/magic/water/barrier-ice-crystal-wall-jagged-blue.webp",
+  "system": {
+    "description": {
+      "value": "<p><em>Что-то угасает внутри. Холодно. Так холодно.</em></p><p>Сабкласс воина. На 3 уровне даёт особенности: ??? ??? ???о???? ???????, ??????я? ????л ?о? ?????и, ????????? и Легендарное сопротивление. На 5 уровне: ????? ?????.</p>",
+      "chat": ""
+    },
+    "source": {
+      "custom": "Autistic Premades",
+      "revision": 1,
+      "rules": "2014"
+    },
+    "identifier": "fade-fighter",
+    "classIdentifier": "fighter",
+    "spellcasting": {
+      "progression": "none",
+      "ability": "",
+      "preparation": {
+        "formula": ""
+      }
+    },
+    "advancement": {
+      "apFadeGrantLv003": {
+        "_id": "apFadeGrantLv003",
+        "type": "ItemGrant",
+        "configuration": {
+          "items": [
+            {
+              "uuid": "Compendium.Autistic_Premades.ap-class-features.Item.apFadeMainFeat01",
+              "optional": false
+            },
+            {
+              "uuid": "Compendium.Autistic_Premades.ap-class-features.Item.apSandevistan001",
+              "optional": false
+            },
+            {
+              "uuid": "Compendium.Autistic_Premades.ap-class-features.Item.apFadeOnslaught1",
+              "optional": false
+            },
+            {
+              "uuid": "Compendium.Autistic_Premades.ap-class-features.Item.apLegendResist01",
+              "optional": false
+            }
+          ],
+          "optional": false,
+          "spell": null
+        },
+        "value": {},
+        "level": 3,
+        "title": "",
+        "hint": ""
+      },
+      "apFadeGrantLv005": {
+        "_id": "apFadeGrantLv005",
+        "type": "ItemGrant",
+        "configuration": {
+          "items": [
+            {
+              "uuid": "Compendium.Autistic_Premades.ap-class-features.Item.apFadeSerums0001",
+              "optional": false
+            }
+          ],
+          "optional": false,
+          "spell": null
+        },
+        "value": {},
+        "level": 5,
+        "title": "",
+        "hint": ""
+      }
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "Autistic_Premades": {
+      "identifier": "fade-fighter"
+    }
+  },
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule0000000"
+  }
+}

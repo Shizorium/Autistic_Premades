@@ -1,0 +1,113 @@
+{
+  "_id": "apFadeOnslaught1",
+  "_key": "!items!apFadeOnslaught1",
+  "name": "?????????",
+  "type": "feat",
+  "img": "icons/skills/melee/strike-sword-blood-red.webp",
+  "system": {
+    "description": {
+      "value": "<p><em>Не забыть её лицо. Уже забыл многих. Убивать нужно. Убивать чтобы не забыть. Таков закон.</em></p><p>Бонусным действием вы теряете 25% ПЗ (не может опустить вас до 0) и получаете следующие бонусы на минуту:</p><ul><li>Дополнительную атаку</li><li>+5 к КБ</li><li>Ваши атаки дополнительно наносят 1д4/?/? урона без типа.</li></ul>",
+      "chat": ""
+    },
+    "source": {
+      "custom": "Autistic Premades",
+      "revision": 1,
+      "rules": "2014"
+    },
+    "identifier": "fade-onslaught",
+    "type": {
+      "value": "class",
+      "subtype": ""
+    },
+    "requirements": "Fighter 3rd level",
+    "uses": {
+      "spent": 0,
+      "max": "",
+      "recovery": []
+    },
+    "activities": {
+      "apFadeOnslaUse01": {
+        "_id": "apFadeOnslaUse01",
+        "type": "utility",
+        "name": "",
+        "sort": 0,
+        "activation": {
+          "type": "bonus",
+          "value": 1,
+          "condition": "",
+          "override": false
+        },
+        "consumption": {
+          "targets": [],
+          "scaling": {
+            "allowed": false,
+            "max": ""
+          },
+          "spellSlot": true
+        },
+        "description": {
+          "chatFlavor": ""
+        },
+        "duration": {
+          "concentration": false,
+          "value": "1",
+          "units": "minute",
+          "special": "",
+          "override": false
+        },
+        "effects": [],
+        "range": {
+          "units": "self",
+          "special": "",
+          "override": false
+        },
+        "target": {
+          "template": {
+            "contiguous": false,
+            "type": "",
+            "size": "",
+            "units": "ft"
+          },
+          "affects": {
+            "count": "",
+            "type": "self",
+            "choice": false,
+            "special": ""
+          },
+          "override": false,
+          "prompt": false
+        },
+        "uses": {
+          "spent": 0,
+          "max": "",
+          "recovery": []
+        },
+        "roll": {
+          "formula": "",
+          "name": "",
+          "prompt": false,
+          "visible": false
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "Autistic_Premades": {
+      "identifier": "fade-onslaught"
+    }
+  },
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule0000000"
+  }
+}
