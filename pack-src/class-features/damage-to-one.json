@@ -1,6 +1,6 @@
 {
-  "_id": "apDamageToOne01",
-  "_key": "!items!apDamageToOne01",
+  "_id": "apDamageToOne001",
+  "_key": "!items!apDamageToOne001",
   "name": "Урон до 1",
   "type": "feat",
   "img": "icons/svg/shield.svg",
@@ -29,8 +29,8 @@
   },
   "effects": [
     {
-      "_id": "apDmgToOneFx001",
-      "_key": "!items.effects!apDamageToOne01.apDmgToOneFx001",
+      "_id": "apDmgToOneFx0001",
+      "_key": "!items.effects!apDamageToOne001.apDmgToOneFx0001",
       "name": "Урон до 1",
       "img": "icons/svg/shield.svg",
       "type": "base",
@@ -68,6 +68,6 @@
     "coreVersion": "13.348",
     "createdTime": 0,
     "modifiedTime": 0,
-    "lastModifiedBy": "apmodule0000000"
+    "lastModifiedBy": "apmodule00000000"
   }
 }

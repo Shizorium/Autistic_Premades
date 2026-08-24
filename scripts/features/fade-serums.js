@@ -12,10 +12,10 @@ import { applyActorDamage, postFlavorChat } from "../lib/hp.js";
 const inFlight = new Set();
 const PACK = "Compendium.Autistic_Premades.ap-class-features.Item";
 const SERUMS = [
-  { identifier: FADE_SERUM_FIRE_ID, uuid: `${PACK}.apFadeSerumFire01`, name: "9827-диротфирТ" },
-  { identifier: FADE_SERUM_BLOOD_ID, uuid: `${PACK}.apFadeSerumBlood1`, name: "себеН ьворК" },
-  { identifier: FADE_SERUM_TEARS_ID, uuid: `${PACK}.apFadeSerumTears1`, name: "ыцирЖ ызелС" },
-  { identifier: FADE_SERUM_HEAL_ID, uuid: `${PACK}.apFadeSerumHeal01`, name: "иретаМ еинащорП" }
+  { identifier: FADE_SERUM_FIRE_ID, uuid: `${PACK}.apFadeSerumFire1`, name: "9827-диротфирТ" },
+  { identifier: FADE_SERUM_BLOOD_ID, uuid: `${PACK}.apFadeSerumBld01`, name: "себеН ьворК" },
+  { identifier: FADE_SERUM_TEARS_ID, uuid: `${PACK}.apFadeSerumTear1`, name: "ыцирЖ ызелС" },
+  { identifier: FADE_SERUM_HEAL_ID, uuid: `${PACK}.apFadeSerumHeal1`, name: "иретаМ еинащорП" }
 ];
 const SERUM_IDS = SERUMS.map((serum) => serum.identifier);
 

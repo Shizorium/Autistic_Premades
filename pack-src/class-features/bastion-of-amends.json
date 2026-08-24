@@ -1,6 +1,6 @@
 {
-  "_id": "apBastionAmends",
-  "_key": "!items!apBastionAmends",
+  "_id": "apBastionAmends0",
+  "_key": "!items!apBastionAmends0",
   "name": "Bastion of Amends",
   "type": "feat",
   "img": "icons/magic/holy/barrier-shield-winged-blue.webp",
@@ -120,7 +120,7 @@
   "effects": [
     {
       "_id": "apBastionMark001",
-      "_key": "!items.effects!apBastionAmends.apBastionMark001",
+      "_key": "!items.effects!apBastionAmends0.apBastionMark001",
       "name": "Bastion of Amends",
       "img": "icons/magic/holy/barrier-shield-winged-blue.webp",
       "type": "base",
@@ -147,7 +147,7 @@
       }
     }
   ],
-  "folder": null,
+  "folder": "apPaladinFolder1",
   "sort": 0,
   "ownership": {
     "default": 0
@@ -163,6 +163,6 @@
     "coreVersion": "13.348",
     "createdTime": 0,
     "modifiedTime": 0,
-    "lastModifiedBy": "apmodule0000000"
+    "lastModifiedBy": "apmodule00000000"
   }
 }

@@ -2,7 +2,8 @@ import { MODULE_ID } from "./lib/identifier.js";
 import { registerSettings } from "./lib/settings.js";
 import { registerBastionOfAmends } from "./features/bastion-of-amends.js";
 import { startLivingAltarReminder } from "./features/living-altar-of-stubbornness.js";
-import { registerFromTheAshes, promptFromTheAshesSideEffect } from "./features/from-the-ashes.js";
+import { registerFromTheAshes, registerDeathStatus, promptFromTheAshesSideEffect } from "./features/from-the-ashes.js";
+import { runFromTheAshesPlayerEffect } from "./features/from-the-ashes-automations.js";
 import { registerDamageToOne } from "./features/damage-to-one.js";
 import { registerInnerFade } from "./features/inner-fade.js";
 import { registerSandevistan } from "./features/sandevistan.js";
@@ -13,6 +14,7 @@ import { registerFadeSerums } from "./features/fade-serums.js";
 Hooks.once("init", () => {
   console.log("Autistic Premades | Initialized");
   registerSettings();
+  registerDeathStatus();
 });
 
 function registerSocket() {
@@ -34,6 +36,17 @@ function registerSocket() {
     return doc.updateEmbeddedDocuments(documentName, updates);
   });
   socket.register("promptFromTheAshesSideEffect", promptFromTheAshesSideEffect);
+  socket.register("runFromTheAshesPlayerEffect", runFromTheAshesPlayerEffect);
+  socket.register("createMeasuredTemplates", async (sceneUuid, data) => {
+    const scene = await fromUuid(sceneUuid);
+    if (!scene) return [];
+    return scene.createEmbeddedDocuments("MeasuredTemplate", data);
+  });
+  socket.register("updateToken", async (uuid, changes) => {
+    const doc = await fromUuid(uuid);
+    if (!doc) return null;
+    return doc.update(changes);
+  });
   socket.register("applyDamage", async (uuid, damages, options = {}) => {
     const doc = await fromUuid(uuid);
     if (!doc?.applyDamage) return null;

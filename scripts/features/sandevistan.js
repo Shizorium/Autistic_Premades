@@ -1,5 +1,5 @@
-import { MODULE_ID, SANDEVISTAN_ID, SANDEVISTAN_NAME, isItem } from "../lib/identifier.js";
-import { applyActorDamage } from "../lib/hp.js";
+import { MODULE_ID, SANDEVISTAN_ID, SANDEVISTAN_NAME, FROM_THE_ASHES_ONDOLOH_ID, isItem } from "../lib/identifier.js";
+import { applyActorDamage, postFlavorChat } from "../lib/hp.js";
 import { healFromKill } from "./inner-fade.js";
 
 const handledUses = new Set();
@@ -7,6 +7,7 @@ const pendingMove = new WeakMap();
 const lightningHits = new Map();
 
 const FILTER_ID = "SandyfilterID";
+const ONDOLH_FILTER_ID = "OndolohFilterID";
 const FILTER_OPTS = {
   color: { value: "#808080", apply: true },
   gamma: 1.0,
@@ -18,6 +19,29 @@ const FILTER_OPTS = {
 
 const MOVEMENT_KEYS = ["walk", "burrow", "climb", "fly", "swim"];
 const TOKEN_ANIMATION_MULT = 1.5;
+const deactivatingOndoloh = new Set();
+const activatingOndoloh = new Set();
+const ignoreOndolohUseUntil = new Map();
+
+export function ignoreNextOndolohUses(actorUuid, ms = 8000) {
+  if (!actorUuid) return;
+  ignoreOndolohUseUntil.set(actorUuid, Date.now() + ms);
+}
+
+function shouldIgnoreOndolohUse(actor) {
+  const until = ignoreOndolohUseUntil.get(actor?.uuid);
+  if (!until) return false;
+  if (Date.now() > until) {
+    ignoreOndolohUseUntil.delete(actor.uuid);
+    return false;
+  }
+  return true;
+}
+
+function shouldSkipOndolohItemUse(item) {
+  const until = Number(item?.flags?.[MODULE_ID]?.skipUseUntil) || 0;
+  return until > Date.now();
+}
 
 export function registerSandevistan() {
   Hooks.on("dnd5e.postUseActivity", onPostUseActivity);
@@ -25,7 +49,10 @@ export function registerSandevistan() {
   Hooks.on("preUpdateToken", onPreUpdateToken);
   Hooks.on("updateToken", onUpdateToken);
   Hooks.on("deleteItem", onDeleteItem);
-  Hooks.on("deleteCombat", () => lightningHits.clear());
+  Hooks.on("preDeleteItem", onPreDeleteOndoloh);
+  Hooks.on("deleteActiveEffect", onDeleteActiveEffect);
+  Hooks.on("updateCombat", onUpdateCombat);
+  Hooks.on("deleteCombat", onDeleteCombat);
   registerTokenAnimationSpeed();
   migrateExistingNames();
 }
@@ -36,7 +63,7 @@ function sandevistanAnimationSpeed() {
 
 function registerTokenAnimationSpeed() {
   const wrap = function (wrapped, options = {}) {
-    if (!this.document?.getFlag(MODULE_ID, "sandevistanActive")) return wrapped(options);
+    if (!isBurstActive(this.document)) return wrapped(options);
     const baseOptions = foundry.utils.deepClone(options);
     delete baseOptions.movementSpeed;
     if (baseOptions.animation && typeof baseOptions.animation === "object") {
@@ -97,7 +124,18 @@ function onMidiRollComplete(workflow) {
 }
 
 function handleUsedItem(item) {
-  if (!isItem(item, SANDEVISTAN_ID) || !item.actor) return;
+  if (!item?.actor) return;
+  if (isItem(item, FROM_THE_ASHES_ONDOLOH_ID)) {
+    if (!isPrimaryHandler(item.actor)) return;
+    if (shouldIgnoreOndolohUse(item.actor) || shouldSkipOndolohItemUse(item)) return;
+    const key = `ondoloh:${item.uuid}:${item.actor.uuid}`;
+    if (handledUses.has(key)) return;
+    handledUses.add(key);
+    setTimeout(() => handledUses.delete(key), 4000);
+    void toggleOndoloh(item);
+    return;
+  }
+  if (!isItem(item, SANDEVISTAN_ID)) return;
   if (!isPrimaryHandler(item.actor)) return;
   const key = `${item.uuid}:${item.actor.uuid}`;
   if (handledUses.has(key)) return;
@@ -107,8 +145,18 @@ function handleUsedItem(item) {
 }
 
 function onDeleteItem(item) {
-  if (!isItem(item, SANDEVISTAN_ID) || !item.actor) return;
+  if (!item?.actor) return;
+  if (isItem(item, FROM_THE_ASHES_ONDOLOH_ID)) {
+    void deactivateOndoloh(item.actor, getActorToken(item.actor));
+    return;
+  }
+  if (!isItem(item, SANDEVISTAN_ID)) return;
   void deactivateSandevistan(item.actor, getActorToken(item.actor));
+}
+
+function onPreDeleteOndoloh(item) {
+  if (!isItem(item, FROM_THE_ASHES_ONDOLOH_ID)) return;
+  if (shouldSkipOndolohItemUse(item) || shouldIgnoreOndolohUse(item.actor)) return false;
 }
 
 async function toggleSandevistan(item) {
@@ -122,6 +170,20 @@ async function toggleSandevistan(item) {
   else await activateSandevistan(actor, item, token);
 }
 
+async function toggleOndoloh(item) {
+  const actor = item.actor;
+  const token = getActorToken(actor);
+  if (!token) {
+    ui.notifications?.warn(`${item.name} | Нужен токен на сцене.`);
+    return;
+  }
+  if (token.document.getFlag(MODULE_ID, "ondolohActive")) {
+    await deactivateOndoloh(actor, token);
+    return;
+  }
+  await activateOndoloh(actor, token);
+}
+
 function isPrimaryHandler(actor) {
   const owners = game.users.filter((user) => user.active && !user.isGM && actor.testUserPermission(user, "OWNER"));
   if (owners.length) return owners[0].id === game.user.id;
@@ -130,6 +192,19 @@ function isPrimaryHandler(actor) {
 
 function isActive(token) {
   return Boolean(token?.document?.getFlag(MODULE_ID, "sandevistanActive"));
+}
+
+function isBurstActive(tokenDoc) {
+  return Boolean(
+    tokenDoc?.getFlag(MODULE_ID, "sandevistanActive")
+    || tokenDoc?.getFlag(MODULE_ID, "ondolohActive")
+  );
+}
+
+function getBurstMode(tokenDoc) {
+  if (tokenDoc?.getFlag(MODULE_ID, "sandevistanActive")) return "sandevistan";
+  if (tokenDoc?.getFlag(MODULE_ID, "ondolohActive")) return "ondoloh";
+  return null;
 }
 
 function getActorToken(actor) {
@@ -141,9 +216,23 @@ function getActorToken(actor) {
 async function activateSandevistan(actor, item, token) {
   await token.document.setFlag(MODULE_ID, "sandevistanActive", true);
   await replaceSpeedEffect(actor, item);
-  applySandyFilter();
-  await playIntro(token);
-  trailLoop(token);
+  applySandyFilter(FILTER_ID);
+  await playIntro(token, "Sandevistan");
+  trailLoop(token, "sandevistanActive", "Sandevistan");
+}
+
+export async function activateOndoloh(actor, token) {
+  if (!actor || !token) return;
+  activatingOndoloh.add(actor.uuid);
+  try {
+    await token.document.setFlag(MODULE_ID, "ondolohActive", true);
+    await replaceOndolohEffect(actor);
+    applySandyFilter(ONDOLH_FILTER_ID);
+    await playIntro(token, "Ondoloh");
+    trailLoop(token, "ondolohActive", "Ondoloh");
+  } finally {
+    activatingOndoloh.delete(actor.uuid);
+  }
 }
 
 async function deactivateSandevistan(actor, token) {
@@ -151,10 +240,30 @@ async function deactivateSandevistan(actor, token) {
     await token.document.setFlag(MODULE_ID, "sandevistanActive", false);
   }
   await removeSpeedEffects(actor);
-  if (token) await playOutro(token);
-  else removeSandyFilter();
+  if (token) await playOutro(token, "Sandevistan", FILTER_ID);
+  else removeSandyFilter(FILTER_ID);
   if (token?.document) {
     await token.document.unsetFlag(MODULE_ID, "sandevistanActive").catch(() => {});
+  }
+}
+
+async function deactivateOndoloh(actor, token, { fromEffect = false } = {}) {
+  const key = actor?.uuid;
+  if (!actor || deactivatingOndoloh.has(key)) return;
+  deactivatingOndoloh.add(key);
+  try {
+    const tok = token ?? getActorToken(actor);
+    if (tok?.document) {
+      await tok.document.setFlag(MODULE_ID, "ondolohActive", false);
+    }
+    if (!fromEffect) await removeOndolohEffects(actor);
+    if (tok) await playOutro(tok, "Ondoloh", ONDOLH_FILTER_ID);
+    else removeSandyFilter(ONDOLH_FILTER_ID);
+    if (tok?.document) {
+      await tok.document.unsetFlag(MODULE_ID, "ondolohActive").catch(() => {});
+    }
+  } finally {
+    deactivatingOndoloh.delete(key);
   }
 }
 
@@ -180,6 +289,34 @@ async function replaceSpeedEffect(actor, item) {
   }]);
 }
 
+async function replaceOndolohEffect(actor) {
+  await removeOndolohEffects(actor);
+  const changes = MOVEMENT_KEYS.map((key) => ({
+    key: `system.attributes.movement.${key}`,
+    mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+    value: "90",
+    priority: 20
+  }));
+  await mutateActor(actor, "createEmbeddedDocuments", "ActiveEffect", [{
+    name: "ондолоХ",
+    img: "icons/magic/lightning/bolt-forked-large-blue.webp",
+    origin: actor.uuid,
+    transfer: false,
+    disabled: false,
+    duration: {
+      rounds: 1,
+      turns: 1,
+      startRound: game.combat?.round ?? 0,
+      startTurn: game.combat?.turn ?? 0
+    },
+    changes,
+    flags: {
+      [MODULE_ID]: { ondoloh: true },
+      dae: { specialDuration: ["turnEnd"] }
+    }
+  }]);
+}
+
 async function removeSpeedEffects(actor) {
   if (!actor) return;
   const ids = actor.effects
@@ -189,23 +326,32 @@ async function removeSpeedEffects(actor) {
   await mutateActor(actor, "deleteEmbeddedDocuments", "ActiveEffect", ids);
 }
 
-function applySandyFilter() {
-  if (globalThis.FXMASTER?.filters?.addFilter) return globalThis.FXMASTER.filters.addFilter(FILTER_ID, "color", FILTER_OPTS);
-  if (globalThis.FXMASTER?.filters?.switch) return globalThis.FXMASTER.filters.switch(FILTER_ID, "color", FILTER_OPTS);
+async function removeOndolohEffects(actor) {
+  if (!actor) return;
+  const ids = actor.effects
+    .filter((effect) => effect.flags?.[MODULE_ID]?.ondoloh)
+    .map((effect) => effect.id);
+  if (!ids.length) return;
+  await mutateActor(actor, "deleteEmbeddedDocuments", "ActiveEffect", ids);
 }
 
-function removeSandyFilter() {
-  if (globalThis.FXMASTER?.filters?.removeFilter) return globalThis.FXMASTER.filters.removeFilter(FILTER_ID);
-  if (globalThis.FXMASTER?.filters?.switch) return globalThis.FXMASTER.filters.switch(FILTER_ID, "color", FILTER_OPTS);
+function applySandyFilter(filterId = FILTER_ID) {
+  if (globalThis.FXMASTER?.filters?.addFilter) return globalThis.FXMASTER.filters.addFilter(filterId, "color", FILTER_OPTS);
+  if (globalThis.FXMASTER?.filters?.switch) return globalThis.FXMASTER.filters.switch(filterId, "color", FILTER_OPTS);
 }
 
-async function playIntro(tok) {
+function removeSandyFilter(filterId = FILTER_ID) {
+  if (globalThis.FXMASTER?.filters?.removeFilter) return globalThis.FXMASTER.filters.removeFilter(filterId);
+  if (globalThis.FXMASTER?.filters?.switch) return globalThis.FXMASTER.filters.switch(filterId, "color", FILTER_OPTS);
+}
+
+async function playIntro(tok, name = "Sandevistan") {
   if (!globalThis.Sequence) return;
   await new Sequence()
     .wait(1000)
     .effect()
       .atLocation(tok)
-      .name("Sandevistan")
+      .name(name)
       .persist()
       .copySprite(tok)
       .aboveLighting()
@@ -237,9 +383,9 @@ async function playIntro(tok) {
     .play();
 }
 
-async function playOutro(tok) {
+async function playOutro(tok, name = "Sandevistan", filterId = FILTER_ID) {
   if (!globalThis.Sequence) {
-    removeSandyFilter();
+    removeSandyFilter(filterId);
     return;
   }
   await new Sequence()
@@ -266,16 +412,16 @@ async function playOutro(tok) {
       .aboveLighting()
       .zIndex(1)
     .thenDo(() => {
-      globalThis.Sequencer?.EffectManager?.endEffects({ name: "Sandevistan", object: tok });
-      removeSandyFilter();
+      globalThis.Sequencer?.EffectManager?.endEffects({ name, object: tok });
+      removeSandyFilter(filterId);
     })
     .play();
 }
 
-async function trailLoop(tok) {
+async function trailLoop(tok, flagKey = "sandevistanActive", name = "Sandevistan") {
   if (!globalThis.Sequence || !globalThis.Sequencer) return;
   let i = 0;
-  while (tok.document.getFlag(MODULE_ID, "sandevistanActive")) {
+  while (tok.document.getFlag(MODULE_ID, flagKey)) {
     new Sequence()
       .effect()
         .atLocation(tok)
@@ -296,7 +442,7 @@ async function trailLoop(tok) {
 function onPreUpdateToken(tokenDoc, changes, options) {
   if (!("x" in changes) && !("y" in changes)) return;
   pendingMove.set(tokenDoc, { x: tokenDoc.x, y: tokenDoc.y });
-  if (!tokenDoc.getFlag(MODULE_ID, "sandevistanActive")) return;
+  if (!isBurstActive(tokenDoc)) return;
   boostTokenAnimation(tokenDoc, changes, options);
 }
 
@@ -316,16 +462,17 @@ function boostTokenAnimation(tokenDoc, changes, options = {}) {
 function onUpdateToken(tokenDoc, changes) {
   if (!game.user.isGM) return;
   if (!("x" in changes) && !("y" in changes)) return;
-  if (!tokenDoc.getFlag(MODULE_ID, "sandevistanActive")) return;
+  const mode = getBurstMode(tokenDoc);
+  if (!mode) return;
   const previous = pendingMove.get(tokenDoc) ?? { x: tokenDoc.x, y: tokenDoc.y };
   pendingMove.delete(tokenDoc);
-  void applyPassbyLightning(tokenDoc, previous, { x: tokenDoc.x, y: tokenDoc.y });
+  void applyPassbyLightning(tokenDoc, previous, { x: tokenDoc.x, y: tokenDoc.y }, mode);
 }
 
-async function applyPassbyLightning(tokenDoc, from, to) {
+async function applyPassbyLightning(tokenDoc, from, to, mode = "sandevistan") {
   const actor = tokenDoc.actor;
   if (!actor) return;
-  const amount = Math.ceil(getFighterLevel(actor) / 2);
+  const amount = getLightningAmount(actor, mode);
   if (amount <= 0) return;
   const roundKey = getRoundKey(actor);
   const hit = lightningHits.get(roundKey) ?? new Set();
@@ -339,43 +486,70 @@ async function applyPassbyLightning(tokenDoc, from, to) {
   lightningHits.set(roundKey, hit);
   if (!targets.length) return;
 
-  const hpBefore = new Map(targets.map((doc) => [
-    doc.actor.uuid,
-    Number(doc.actor.system?.attributes?.hp?.value) || 0
-  ]));
-  const tokens = targets
-    .map((doc) => doc.object ?? canvas.tokens?.get(doc.id))
-    .filter(Boolean);
-  const item = actor.items.find((entry) => isItem(entry, SANDEVISTAN_ID));
+  const hpBefore = new Map(targets.map((doc) => [doc.actor.uuid, hpTotal(doc.actor)]));
 
-  if (globalThis.MidiQOL?.applyTokenDamage && tokens.length) {
-    await MidiQOL.applyTokenDamage(
-      [{ value: amount, type: "lightning" }],
-      amount,
-      new Set(tokens),
-      item,
-      new Set(),
-      {
-        forceApply: true,
-        workflow: {
-          actor,
-          token: tokenDoc.object,
-          itemCardUuid: undefined,
-          flagTags: undefined
-        }
+  if (mode !== "ondoloh") {
+    const tokens = targets
+      .map((doc) => doc.object ?? canvas.tokens?.get(doc.id))
+      .filter(Boolean);
+    const item = actor.items.find((entry) => isItem(entry, SANDEVISTAN_ID));
+    try {
+      if (globalThis.MidiQOL?.applyTokenDamage && tokens.length) {
+        await MidiQOL.applyTokenDamage(
+          [{ value: amount, type: "lightning" }],
+          amount,
+          new Set(tokens),
+          item,
+          new Set(),
+          {
+            forceApply: true,
+            workflow: {
+              actor,
+              token: tokenDoc.object,
+              itemCardUuid: undefined,
+              flagTags: undefined
+            }
+          }
+        );
       }
-    );
-  } else {
-    for (const target of targets) {
-      await applyActorDamage(target.actor, [{ value: amount, type: "lightning" }]);
+    } catch (error) {
+      console.warn("Autistic Premades | applyTokenDamage failed", error);
     }
   }
 
+  const hitNames = [];
   for (const target of targets) {
-    const before = hpBefore.get(target.actor.uuid) ?? 0;
-    const after = Number(target.actor.system?.attributes?.hp?.value) || 0;
-    if (before > 0 && after <= 0) await healFromKill(actor, target.actor);
+    if (hpTotal(target.actor) >= (hpBefore.get(target.actor.uuid) ?? 0)) {
+      await applyActorDamage(target.actor, [{ value: amount, type: "lightning" }]);
+    }
+    hitNames.push(target.actor.name);
+    if (mode === "sandevistan") {
+      const before = hpBefore.get(target.actor.uuid) ?? 0;
+      const after = Number(target.actor.system?.attributes?.hp?.value) || 0;
+      if (before > 0 && after <= 0) await healFromKill(actor, target.actor);
+    }
   }
+
+  if (mode === "ondoloh" && hitNames.length) {
+    await postFlavorChat(
+      actor,
+      `<p><strong>ондолоХ</strong> — ${amount} урона молнией (${hitNames.join(", ")}).</p>`
+    );
+  }
+}
+
+function hpTotal(actor) {
+  const hp = actor?.system?.attributes?.hp;
+  return (Number(hp?.value) || 0) + (Number(hp?.temp) || 0);
+}
+
+function getLightningAmount(actor, mode) {
+  if (mode === "ondoloh") {
+    return Number(actor.classes?.wizard?.system?.levels)
+      || Number(actor.system?.details?.level)
+      || 1;
+  }
+  return Math.ceil(getFighterLevel(actor) / 2);
 }
 
 function getFighterLevel(actor) {
@@ -429,7 +603,7 @@ function isAdjacentAt(moverDoc, pos, otherDoc) {
   const bH = (otherDoc.height ?? 1) * size;
   const gapX = pos.x < otherDoc.x ? otherDoc.x - (pos.x + aW) : pos.x - (otherDoc.x + bW);
   const gapY = pos.y < otherDoc.y ? otherDoc.y - (pos.y + aH) : pos.y - (otherDoc.y + bH);
-  return Math.max(gapX, gapY) <= 1;
+  return Math.max(gapX, gapY) <= size * 0.2;
 }
 
 async function mutateActor(actor, method, documentName, payload) {
@@ -438,4 +612,32 @@ async function mutateActor(actor, method, documentName, payload) {
     return socket.executeAsGM(method, actor.uuid, documentName, payload);
   }
   return actor[method](documentName, payload);
+}
+
+function onDeleteActiveEffect(effect) {
+  if (!effect.flags?.[MODULE_ID]?.ondoloh) return;
+  const actor = effect.parent;
+  if (!actor || actor.documentName !== "Actor") return;
+  if (activatingOndoloh.has(actor.uuid)) return;
+  if (actor.effects.some((entry) => entry.id !== effect.id && entry.flags?.[MODULE_ID]?.ondoloh)) return;
+  void deactivateOndoloh(actor, getActorToken(actor), { fromEffect: true });
+}
+
+function onUpdateCombat(combat, changed) {
+  if (!game.user.isGM) return;
+  if (!("turn" in changed) && !("round" in changed)) return;
+  const prevId = combat.previous?.combatantId;
+  const prev = prevId ? combat.combatants.get(prevId) : null;
+  const actor = prev?.actor;
+  if (!actor) return;
+  const token = getActorToken(actor);
+  if (!token?.document?.getFlag(MODULE_ID, "ondolohActive")
+    && !actor.effects.some((effect) => effect.flags?.[MODULE_ID]?.ondoloh)) {
+    return;
+  }
+  void deactivateOndoloh(actor, token);
+}
+
+function onDeleteCombat() {
+  lightningHits.clear();
 }

@@ -1,6 +1,6 @@
 {
-  "_id": "apFadeSerumTears1",
-  "_key": "!items!apFadeSerumTears1",
+  "_id": "apFadeSerumTear1",
+  "_key": "!items!apFadeSerumTear1",
   "name": "ыцирЖ ызелС",
   "type": "consumable",
   "img": "icons/consumables/potions/potion-bottle-corked-fancy-blue.webp",
@@ -141,7 +141,7 @@
     }
   },
   "effects": [],
-  "folder": null,
+  "folder": "apFadeFolder0001",
   "sort": 0,
   "ownership": {
     "default": 0
@@ -157,6 +157,6 @@
     "coreVersion": "13.348",
     "createdTime": 0,
     "modifiedTime": 0,
-    "lastModifiedBy": "apmodule0000000"
+    "lastModifiedBy": "apmodule00000000"
   }
 }
