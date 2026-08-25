@@ -1,0 +1,118 @@
+{
+  "_id": "apSoulFlameMain1",
+  "_key": "!items!apSoulFlameMain1",
+  "name": "We, both Flame and Light",
+  "type": "feat",
+  "img": "icons/magic/fire/projectile-fireball-smoke-orange.webp",
+  "system": {
+    "description": {
+      "value": "<p>У вас есть количество зарядов, равное модификатору Харизмы, которые можно тратить на воплощение вашего Духовного Пламени в виде стрел. Вы можете воплощать их, когда делаете дальнобойную атаку из лука. Заряды не тратятся при промахе и восстанавливаются на долгом отдыхе либо если вы потратите пактовую ячейку бонусным действием — пактовая ячейка восстанавливает все заряды.</p><p>Нельзя использовать больше одной стрелы за атаку. DC стрел равно DC ваших пактовых заклинаний.</p><p>Стрелы становятся сильнее на 8 и 15 уровнях.</p>",
+      "chat": ""
+    },
+    "source": {
+      "custom": "Autistic Premades",
+      "revision": 1,
+      "rules": "2014"
+    },
+    "identifier": "we-both-flame-and-light",
+    "type": {
+      "value": "class",
+      "subtype": ""
+    },
+    "requirements": "Warlock 3rd level",
+    "uses": {
+      "spent": 0,
+      "max": "@abilities.cha.mod",
+      "recovery": [
+        {
+          "period": "lr",
+          "type": "recoverAll"
+        }
+      ]
+    },
+    "activities": {
+      "apSoulRestore001": {
+        "_id": "apSoulRestore001",
+        "type": "utility",
+        "name": "Восстановить заряды",
+        "sort": 0,
+        "activation": {
+          "type": "bonus",
+          "value": 1,
+          "condition": "",
+          "override": false
+        },
+        "consumption": {
+          "targets": [],
+          "scaling": {
+            "allowed": false,
+            "max": ""
+          },
+          "spellSlot": false
+        },
+        "description": {
+          "chatFlavor": ""
+        },
+        "duration": {
+          "concentration": false,
+          "value": "",
+          "units": "",
+          "special": "",
+          "override": false
+        },
+        "effects": [],
+        "range": {
+          "units": "self",
+          "special": "",
+          "override": false
+        },
+        "target": {
+          "template": {
+            "contiguous": false,
+            "type": "",
+            "size": "",
+            "units": "ft"
+          },
+          "affects": {
+            "count": "",
+            "type": "self",
+            "choice": false,
+            "special": ""
+          },
+          "override": false,
+          "prompt": false
+        },
+        "uses": {
+          "spent": 0,
+          "max": "",
+          "recovery": []
+        },
+        "roll": {
+          "formula": "",
+          "name": "",
+          "prompt": false,
+          "visible": false
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": "apSoulFlameFold1",
+  "sort": 100000,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "Autistic_Premades": {
+      "identifier": "we-both-flame-and-light"
+    }
+  },
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule00000000"
+  }
+}

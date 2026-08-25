@@ -10,6 +10,9 @@ import { registerSandevistan } from "./features/sandevistan.js";
 import { registerLegendaryResistance } from "./features/legendary-resistance.js";
 import { registerFadeOnslaught } from "./features/fade-onslaught.js";
 import { registerFadeSerums } from "./features/fade-serums.js";
+import { registerSoulFlame } from "./features/soul-flame.js";
+import { registerSolarStorm } from "./features/solar-storm.js";
+import { registerFireIncarnate } from "./features/fire-incarnate.js";
 
 Hooks.once("init", () => {
   console.log("Autistic Premades | Initialized");
@@ -52,6 +55,11 @@ function registerSocket() {
     if (!doc?.applyDamage) return null;
     return doc.applyDamage(damages, options);
   });
+  socket.register("updateActor", async (uuid, changes) => {
+    const doc = await fromUuid(uuid);
+    if (!doc) return null;
+    return doc.update(changes);
+  });
   globalThis.autisticPremades ??= {};
   globalThis.autisticPremades.socket = socket;
 }
@@ -69,4 +77,7 @@ Hooks.once("ready", () => {
   registerLegendaryResistance();
   registerFadeOnslaught();
   registerFadeSerums();
+  registerSoulFlame();
+  registerSolarStorm();
+  registerFireIncarnate();
 });

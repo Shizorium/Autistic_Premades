@@ -1,0 +1,78 @@
+{
+  "_id": "apSoulFlameSub01",
+  "_key": "!items!apSoulFlameSub01",
+  "name": "The Lovers",
+  "type": "subclass",
+  "img": "icons/magic/fire/projectile-wave-arrow.webp",
+  "system": {
+    "description": {
+      "value": "<p>Подкласс колдуна. На 3 уровне даёт особенности: <strong>We, both Flame and Light</strong>, <strong>You, the Heartfelt Blaze</strong>, <strong>I, the Zeroeth Crystal</strong> и <strong>We, the Heavenly Serpent</strong>.</p>",
+      "chat": ""
+    },
+    "source": {
+      "custom": "Autistic Premades",
+      "revision": 1,
+      "rules": "2014"
+    },
+    "identifier": "soul-flame",
+    "classIdentifier": "warlock",
+    "spellcasting": {
+      "progression": "none",
+      "ability": "",
+      "preparation": {
+        "formula": ""
+      }
+    },
+    "advancement": {
+      "apSoulGrantLv003": {
+        "_id": "apSoulGrantLv003",
+        "type": "ItemGrant",
+        "configuration": {
+          "items": [
+            {
+              "uuid": "Compendium.Autistic_Premades.ap-class-features.Item.apSoulFlameMain1",
+              "optional": false
+            },
+            {
+              "uuid": "Compendium.Autistic_Premades.ap-class-features.Item.apSoulFlameBlaze",
+              "optional": false
+            },
+            {
+              "uuid": "Compendium.Autistic_Premades.ap-class-features.Item.apSoulFlameCryst",
+              "optional": false
+            },
+            {
+              "uuid": "Compendium.Autistic_Premades.ap-class-features.Item.apSoulFlameSerp1",
+              "optional": false
+            }
+          ],
+          "optional": false,
+          "spell": null
+        },
+        "value": {},
+        "level": 3,
+        "title": "",
+        "hint": ""
+      }
+    }
+  },
+  "effects": [],
+  "folder": "apSoulFlameFold1",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "Autistic_Premades": {
+      "identifier": "soul-flame"
+    }
+  },
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule00000000"
+  }
+}

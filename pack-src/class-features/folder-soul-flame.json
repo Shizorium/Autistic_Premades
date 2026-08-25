@@ -1,0 +1,20 @@
+{
+  "_id": "apSoulFlameFold1",
+  "_key": "!folders!apSoulFlameFold1",
+  "name": "The Lovers",
+  "type": "Item",
+  "description": "",
+  "folder": null,
+  "sorting": "a",
+  "sort": 200000,
+  "color": "#c23b22",
+  "flags": {},
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule00000000"
+  }
+}

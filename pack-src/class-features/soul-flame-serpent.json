@@ -1,0 +1,181 @@
+{
+  "_id": "apSoulFlameSerp1",
+  "_key": "!items!apSoulFlameSerp1",
+  "name": "We, the Heavenly Serpent",
+  "type": "feat",
+  "img": "icons/magic/light/beam-rays-yellow.webp",
+  "system": {
+    "description": {
+      "value": "<p>Потратьте 5 зарядов, чтобы сделать выстрел линией 5/10/15 фт. шириной и 60/120/180/1000 фт. длиной. Цели по вашему выбору на пути стрелы должны преуспеть в спасброске Харизмы или получить 4d8/4d10/4d12 + количество 1d8/1d10/1d12, равное бонусу мастерства, неснижаемого лучистого урона (половина при успехе).</p><p>На следующем ходу заменой одной из атак вы можете вызвать вспышку с конца линии, которая пронесётся обратно, и каждое существо в ней по вашему выбору получает 10 + 2 за уровень чернокнижника временных хитов.</p><p>Изгоняет Мрак в области соприкосновения.</p><p>Эту стрелу можно выпустить лишь раз за долгий отдых. При необходимости её можно выпустить ещё раз, но вы оба получите 3 уровня истощения.</p>",
+      "chat": ""
+    },
+    "source": {
+      "custom": "Autistic Premades",
+      "revision": 1,
+      "rules": "2014"
+    },
+    "identifier": "we-the-heavenly-serpent",
+    "type": {
+      "value": "class",
+      "subtype": ""
+    },
+    "requirements": "Warlock 3rd level",
+    "uses": {
+      "spent": 0,
+      "max": "1",
+      "recovery": [
+        {
+          "period": "lr",
+          "type": "recoverAll"
+        }
+      ]
+    },
+    "activities": {
+      "apSoulSerpentAtk": {
+        "_id": "apSoulSerpentAtk",
+        "type": "utility",
+        "name": "Выстрел",
+        "sort": 0,
+        "activation": {
+          "type": "action",
+          "value": 1,
+          "condition": "",
+          "override": false
+        },
+        "consumption": {
+          "targets": [],
+          "scaling": {
+            "allowed": false,
+            "max": ""
+          },
+          "spellSlot": false
+        },
+        "description": {
+          "chatFlavor": ""
+        },
+        "duration": {
+          "concentration": false,
+          "value": "",
+          "units": "inst",
+          "special": "",
+          "override": false
+        },
+        "effects": [],
+        "range": {
+          "units": "self",
+          "special": "",
+          "override": false
+        },
+        "target": {
+          "template": {
+            "contiguous": false,
+            "type": "",
+            "size": "",
+            "units": "ft"
+          },
+          "affects": {
+            "count": "",
+            "type": "",
+            "choice": false,
+            "special": ""
+          },
+          "override": false,
+          "prompt": false
+        },
+        "uses": {
+          "spent": 0,
+          "max": "",
+          "recovery": []
+        },
+        "roll": {
+          "formula": "",
+          "name": "",
+          "prompt": false,
+          "visible": false
+        }
+      },
+      "apSoulSerpentRet": {
+        "_id": "apSoulSerpentRet",
+        "type": "utility",
+        "name": "Вспышка (замена атаки)",
+        "sort": 1,
+        "activation": {
+          "type": "special",
+          "value": 1,
+          "condition": "",
+          "override": false
+        },
+        "consumption": {
+          "targets": [],
+          "scaling": {
+            "allowed": false,
+            "max": ""
+          },
+          "spellSlot": false
+        },
+        "description": {
+          "chatFlavor": ""
+        },
+        "duration": {
+          "concentration": false,
+          "value": "",
+          "units": "inst",
+          "special": "",
+          "override": false
+        },
+        "effects": [],
+        "range": {
+          "units": "self",
+          "special": "",
+          "override": false
+        },
+        "target": {
+          "template": {
+            "contiguous": false,
+            "type": "",
+            "size": "",
+            "units": "ft"
+          },
+          "affects": {
+            "count": "",
+            "type": "",
+            "choice": false,
+            "special": ""
+          },
+          "override": false,
+          "prompt": false
+        },
+        "uses": {
+          "spent": 0,
+          "max": "",
+          "recovery": []
+        },
+        "roll": {
+          "formula": "",
+          "name": "",
+          "prompt": false,
+          "visible": false
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": "apSoulFlameFold1",
+  "sort": 400000,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "Autistic_Premades": {
+      "identifier": "we-the-heavenly-serpent"
+    }
+  },
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule00000000"
+  }
+}

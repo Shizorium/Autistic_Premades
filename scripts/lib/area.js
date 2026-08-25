@@ -21,28 +21,29 @@ export async function pickPoint({
   distance,
   fillColor,
   origin,
-  maxRange
+  maxRange,
+  notifyPrefix = "Из Праха"
 } = {}) {
   if (!canvas?.ready || !canvas.scene) {
-    ui.notifications.warn("Из Праха | Нет активной сцены.");
+    ui.notifications.warn(`${notifyPrefix} | Нет активной сцены.`);
     return null;
   }
 
-  ui.notifications.info(`Из Праха | ${label} (ПКМ или Escape — отмена)`);
+  ui.notifications.info(`${notifyPrefix} | ${label} (ПКМ или Escape — отмена)`);
 
-  const fromSequencer = await pickWithSequencer({ label, distance, fillColor, origin, maxRange });
+  const fromSequencer = await pickWithSequencer({ label, distance, fillColor, origin, maxRange, notifyPrefix });
   if (fromSequencer !== undefined) return fromSequencer;
 
   const point = await pickWithClick();
   if (!point) return null;
   if (maxRange && origin && distanceFeet(origin, point) > maxRange) {
-    ui.notifications.warn(`Из Праха | Дальше ${maxRange} фт.`);
-    return pickPoint({ label, distance, fillColor, origin, maxRange });
+    ui.notifications.warn(`${notifyPrefix} | Дальше ${maxRange} фт.`);
+    return pickPoint({ label, distance, fillColor, origin, maxRange, notifyPrefix });
   }
   return point;
 }
 
-async function pickWithSequencer({ label, distance, fillColor, origin, maxRange }) {
+async function pickWithSequencer({ label, distance, fillColor, origin, maxRange, notifyPrefix = "Из Праха" }) {
   const show = globalThis.Sequencer?.Crosshair?.show;
   if (!show) return undefined;
 
@@ -80,8 +81,8 @@ async function pickWithSequencer({ label, distance, fillColor, origin, maxRange 
   const point = asPoint(result);
   if (!point) return null;
   if (maxRange && origin && distanceFeet(asPoint(origin) ?? origin, point) > maxRange) {
-    ui.notifications.warn(`Из Праха | Дальше ${maxRange} фт.`);
-    return pickWithSequencer({ label, distance, fillColor, origin, maxRange });
+    ui.notifications.warn(`${notifyPrefix} | Дальше ${maxRange} фт.`);
+    return pickWithSequencer({ label, distance, fillColor, origin, maxRange, notifyPrefix });
   }
   return point;
 }
@@ -167,6 +168,389 @@ export async function createCircleTemplate({
 
   const docs = await createSceneEmbedded(target, "MeasuredTemplate", [data]);
   return docs?.[0] ?? null;
+}
+
+export async function createLineTemplate({
+  scene,
+  origin,
+  distance,
+  direction,
+  width = 5,
+  fillColor,
+  effect
+} = {}) {
+  const target = scene ?? canvas.scene;
+  if (!target || !origin) return null;
+  const color = fillColor ?? game.user.color;
+  const data = {
+    t: "ray",
+    x: origin.x,
+    y: origin.y,
+    distance,
+    direction,
+    width,
+    fillColor: color,
+    borderColor: color,
+    hidden: false,
+    flags: {
+      [MODULE_ID]: { soulFlame: true, effect }
+    }
+  };
+  const docs = await createSceneEmbedded(target, "MeasuredTemplate", [data]);
+  return docs?.[0] ?? null;
+}
+
+export function tokenRadiusFeet(token) {
+  const gridDist = canvas.grid?.distance || 5;
+  const width = Number(token?.document?.width ?? token?.width) || 1;
+  return (width * gridDist) / 2;
+}
+
+export function tokensInLine(origin, end, widthFeet) {
+  if (!origin || !end || !canvas.tokens?.placeables) return [];
+  const half = (Number(widthFeet) || 5) / 2;
+  return canvas.tokens.placeables.filter((token) => {
+    if (!token.actor) return false;
+    const radius = tokenRadiusFeet(token);
+    return distanceToSegmentFeet(token.center, origin, end) <= half + radius + 0.25;
+  });
+}
+
+function distanceToSegmentFeet(point, start, end) {
+  const dx = end.x - start.x;
+  const dy = end.y - start.y;
+  const lengthSq = dx * dx + dy * dy;
+  if (lengthSq === 0) return distanceFeet(point, start);
+  const t = Math.max(0, Math.min(1, ((point.x - start.x) * dx + (point.y - start.y) * dy) / lengthSq));
+  return distanceFeet(point, { x: start.x + t * dx, y: start.y + t * dy });
+}
+
+function clampToLength(origin, point, maxLength) {
+  const dist = distanceFeet(origin, point);
+  if (!(maxLength > 0) || dist <= maxLength || dist === 0) return { point, distance: dist };
+  const ratio = maxLength / dist;
+  return {
+    point: {
+      x: origin.x + (point.x - origin.x) * ratio,
+      y: origin.y + (point.y - origin.y) * ratio
+    },
+    distance: maxLength
+  };
+}
+
+export async function pickLineTemplate({
+  origin,
+  length,
+  width = 5,
+  fillColor,
+  notifyPrefix = "The Lovers",
+  persistTemplate = true,
+  effect = "line"
+} = {}) {
+  const point = asPoint(origin) ?? origin;
+  if (!point || !canvas?.ready || !canvas.scene) {
+    ui.notifications.warn(`${notifyPrefix} | Нет активной сцены.`);
+    return null;
+  }
+
+  const color = fillColor ?? game.user.color;
+  ui.notifications.info(`${notifyPrefix} | Укажите направление линии (ЛКМ — подтвердить, ПКМ или Escape — отмена).`);
+
+  const placed = await previewRayTemplate({
+    t: CONST.MEASURED_TEMPLATE_TYPES?.RAY ?? "ray",
+    user: game.user.id,
+    x: point.x,
+    y: point.y,
+    direction: 0,
+    distance: length,
+    width,
+    fillColor: color,
+    borderColor: color,
+    hidden: false
+  }, point);
+
+  if (!placed) return null;
+
+  let template = null;
+  if (persistTemplate) {
+    template = await createLineTemplate({
+      origin: point,
+      distance: length,
+      direction: placed.direction,
+      width,
+      fillColor: color,
+      effect
+    });
+  }
+
+  const end = rayEnd(point, placed.direction, length);
+  return {
+    origin: point,
+    end,
+    direction: placed.direction,
+    distance: length,
+    width,
+    tokens: tokensInLine(point, end, width),
+    template
+  };
+}
+
+function rayEnd(origin, directionDeg, distanceFeet) {
+  const gridDist = canvas.grid?.distance || 5;
+  const size = canvas.grid?.size || 100;
+  const px = (Number(distanceFeet) / gridDist) * size;
+  const rad = (Number(directionDeg) * Math.PI) / 180;
+  return {
+    x: origin.x + Math.cos(rad) * px,
+    y: origin.y + Math.sin(rad) * px
+  };
+}
+
+async function previewRayTemplate(data, origin) {
+  const previous = canvas.activeLayer;
+  await canvas.templates?.activate?.();
+  const DocumentCls = CONFIG.MeasuredTemplate.documentClass;
+  const ObjectCls = CONFIG.MeasuredTemplate.objectClass;
+  const doc = new DocumentCls(foundry.utils.deepClone(data), { parent: canvas.scene });
+  const object = new ObjectCls(doc);
+  try {
+    await object.draw?.();
+  } catch {
+    await object._draw?.();
+  }
+  canvas.templates.preview?.addChild?.(object);
+  if (!object.parent) canvas.templates.addChild?.(object);
+  object.visible = true;
+  object.refresh?.();
+
+  const pointerPos = (event) => {
+    if (event?.clientX != null && canvas.canvasCoordinatesFromClient) {
+      return canvas.canvasCoordinatesFromClient({ x: event.clientX, y: event.clientY });
+    }
+    const src = event?.data?.originalEvent ?? event?.nativeEvent ?? event;
+    if (src?.clientX != null && canvas.canvasCoordinatesFromClient) {
+      return canvas.canvasCoordinatesFromClient({ x: src.clientX, y: src.clientY });
+    }
+    if (event?.data?.getLocalPosition) {
+      try {
+        return event.data.getLocalPosition(canvas.templates);
+      } catch {
+        // fall through
+      }
+    }
+    return canvas.mousePosition ?? null;
+  };
+
+  const updateDir = (pos) => {
+    if (!pos) return;
+    const direction = (Math.atan2(pos.y - origin.y, pos.x - origin.x) * 180) / Math.PI;
+    try {
+      doc.updateSource({
+        direction,
+        x: origin.x,
+        y: origin.y,
+        distance: data.distance,
+        width: data.width
+      });
+    } catch {
+      doc.direction = direction;
+    }
+    object.refresh?.();
+    object.renderFlags?.set?.({ refreshShape: true, refreshPosition: true });
+  };
+
+  return new Promise((resolve) => {
+    let done = false;
+    const view = canvas.app?.view ?? canvas.el;
+    const finish = (result) => {
+      if (done) return;
+      done = true;
+      canvas.stage.off("pointermove", onMove);
+      canvas.stage.off("pointerdown", onDown);
+      window.removeEventListener("keydown", onKey, true);
+      view?.removeEventListener("contextmenu", onContext, true);
+      try {
+        canvas.templates.preview?.removeChild?.(object);
+      } catch {
+        // ignore
+      }
+      try {
+        object.destroy({ children: true });
+      } catch {
+        // ignore
+      }
+      previous?.activate?.();
+      resolve(result);
+    };
+    const onMove = (event) => updateDir(pointerPos(event) ?? canvas.mousePosition);
+    const onDown = (event) => {
+      const button = event.data?.button ?? event.button ?? 0;
+      if (button === 2) {
+        event.stopPropagation?.();
+        event.preventDefault?.();
+        finish(null);
+        return;
+      }
+      if (button === 0) {
+        event.stopPropagation?.();
+        finish({ direction: Number(doc.direction) || 0 });
+      }
+    };
+    const onContext = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      finish(null);
+    };
+    const onKey = (event) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      finish(null);
+    };
+    canvas.stage.on("pointermove", onMove);
+    canvas.stage.on("pointerdown", onDown);
+    window.addEventListener("keydown", onKey, true);
+    view?.addEventListener("contextmenu", onContext, true);
+  });
+}
+
+export async function pickLine({
+  origin,
+  length,
+  width = 5,
+  label = "Конец линии",
+  fillColor,
+  notifyPrefix = "The Lovers",
+  persistTemplate = true,
+  effect = "line"
+} = {}) {
+  if (!origin) return null;
+  const end = await pickPoint({
+    label,
+    origin,
+    maxRange: length,
+    fillColor,
+    notifyPrefix
+  });
+  if (!end) return null;
+  const clamped = clampToLength(origin, end, length);
+  const direction = (Math.atan2(clamped.point.y - origin.y, clamped.point.x - origin.x) * 180) / Math.PI;
+  let template = null;
+  if (persistTemplate) {
+    template = await createLineTemplate({
+      origin,
+      distance: clamped.distance || length,
+      direction,
+      width,
+      fillColor,
+      effect
+    });
+  }
+  const tokens = tokensInLine(origin, clamped.point, width);
+  return {
+    origin,
+    end: clamped.point,
+    direction,
+    distance: clamped.distance || length,
+    width,
+    tokens,
+    template
+  };
+}
+
+export async function pickTokenFromList(tokens, {
+  title = "Цель",
+  label = "Выберите существо",
+  skipLabel = null,
+  autoPickSingle = true
+} = {}) {
+  const list = (tokens ?? []).filter((token) => token?.actor);
+  if (!list.length) {
+    ui.notifications.warn(`${title} | Нет подходящих целей.`);
+    return null;
+  }
+  if (autoPickSingle && list.length === 1 && !skipLabel) return list[0];
+
+  const stamp = foundry.utils.randomID?.(8) ?? `${Date.now()}`;
+  const buttons = list.map((token) => ({
+    action: token.id,
+    label: token.name ?? token.actor?.name ?? token.id
+  }));
+  if (skipLabel) buttons.push({ action: "skip", label: skipLabel });
+  else buttons.push({ action: "skip", label: "Отмена" });
+
+  const detachHover = attachTokenListHover(stamp, list);
+  try {
+    const chosen = await foundry.applications.api.DialogV2.wait({
+      window: { title },
+      position: { width: 420 },
+      content: `<p data-ap-pick="${stamp}">${label}</p>`,
+      buttons,
+      rejectClose: false,
+      render: (_event, dialog) => bindTokenHover(dialog?.element ?? dialog, list)
+    });
+    if (!chosen || chosen === "skip") return null;
+    return list.find((token) => token.id === chosen) ?? canvas.tokens.get(chosen) ?? null;
+  } catch {
+    return null;
+  } finally {
+    detachHover();
+    clearTokenHover(list);
+  }
+}
+
+function attachTokenListHover(stamp, tokens) {
+  const bind = (app, element) => {
+    const root = element instanceof HTMLElement ? element : app?.element;
+    if (!root?.querySelector?.(`[data-ap-pick="${stamp}"]`)) return;
+    bindTokenHover(root, tokens);
+  };
+  const hookA = Hooks.on("renderDialogV2", bind);
+  const hookB = Hooks.on("renderApplicationV2", bind);
+  return () => {
+    Hooks.off("renderDialogV2", hookA);
+    Hooks.off("renderApplicationV2", hookB);
+  };
+}
+
+function bindTokenHover(root, tokens) {
+  if (!root?.querySelectorAll) return;
+  const byId = new Map(tokens.map((token) => [token.id, token]));
+  const onOver = (event) => {
+    const id = event.currentTarget?.dataset?.action;
+    hoverToken(byId.get(id), true);
+  };
+  const onOut = (event) => {
+    const id = event.currentTarget?.dataset?.action;
+    hoverToken(byId.get(id), false);
+  };
+  for (const button of root.querySelectorAll("[data-action]")) {
+    if (!byId.has(button.dataset.action)) continue;
+    button.addEventListener("pointerenter", onOver);
+    button.addEventListener("pointerleave", onOut);
+    button.addEventListener("mouseover", onOver);
+    button.addEventListener("mouseout", onOut);
+  }
+}
+
+function hoverToken(token, on) {
+  if (!token) return;
+  try {
+    const event = { type: on ? "pointerover" : "pointerout", preventDefault() {}, stopPropagation() {} };
+    if (on) {
+      canvas.tokens.hover = token;
+      token._onHoverIn?.(event, { hoverOutOthers: true });
+    } else {
+      if (canvas.tokens.hover === token) canvas.tokens.hover = null;
+      token._onHoverOut?.(event);
+    }
+  } catch {
+    token.hover = Boolean(on);
+    token.refresh?.();
+  }
+}
+
+function clearTokenHover(tokens) {
+  for (const token of tokens ?? []) hoverToken(token, false);
 }
 
 export async function createAreaAt({

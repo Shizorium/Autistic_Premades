@@ -1,0 +1,49 @@
+{
+  "_id": "apSoulFlameBlaze",
+  "_key": "!items!apSoulFlameBlaze",
+  "name": "You, the Heartfelt Blaze",
+  "type": "feat",
+  "img": "icons/magic/fire/flame-burning-earth-orange.webp",
+  "system": {
+    "description": {
+      "value": "<p><strong>1 заряд.</strong> Добавляет к урону атаки 1d6/1d8/1d10 + количество d6/d8/d10, равное бонусу мастерства. При трате ещё одного заряда пламя перескочит на цель в 30 фт. и нанесёт такой же бонусный урон. Не более трёх целей всего.</p><p>Или потратьте 1 заряд, чтобы вместо этого восстановить хиты цели атаки в количестве d6/d8/d10, равном бонусу мастерства, включая базовый урон лука. Потратьте ещё заряд, чтобы половина результата перескочила к ещё одной цели в 30 фт. Не более трёх целей всего.</p>",
+      "chat": ""
+    },
+    "source": {
+      "custom": "Autistic Premades",
+      "revision": 1,
+      "rules": "2014"
+    },
+    "identifier": "you-the-heartfelt-blaze",
+    "type": {
+      "value": "class",
+      "subtype": ""
+    },
+    "requirements": "Warlock 3rd level",
+    "uses": {
+      "spent": 0,
+      "max": "",
+      "recovery": []
+    },
+    "activities": {}
+  },
+  "effects": [],
+  "folder": "apSoulFlameFold1",
+  "sort": 200000,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "Autistic_Premades": {
+      "identifier": "you-the-heartfelt-blaze"
+    }
+  },
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule00000000"
+  }
+}

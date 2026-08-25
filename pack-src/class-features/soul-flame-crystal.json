@@ -1,0 +1,49 @@
+{
+  "_id": "apSoulFlameCryst",
+  "_key": "!items!apSoulFlameCryst",
+  "name": "I, the Zeroeth Crystal",
+  "type": "feat",
+  "img": "icons/magic/water/orb-ice-web.webp",
+  "system": {
+    "description": {
+      "value": "<p><strong>1 заряд.</strong> Добавляет к урону атаки количество d6/d8/d10 урона холодом, равное бонусу мастерства. Поражённая цель делает спасбросок Выносливости. При провале цель покрывается льдом, теряя всю свою скорость до конца следующего хода. При успехе она замедлена наполовину.</p><p>Или потратьте три заряда, чтобы не нанести урона, но заточить цель в хрустальную глыбу, в которой она не сможет действовать в течение минуты, но она неуязвима ко всему урону и эффектам (включая Мрак; в этом случае глыба становится непроглядной). Сопротивляющаяся цель может действием совершить спасбросок Силы по сложности 20/25/30 или потратить легендарное сопротивление, чтобы выбраться. Не больше раза на одну цель за бой или сцену.</p>",
+      "chat": ""
+    },
+    "source": {
+      "custom": "Autistic Premades",
+      "revision": 1,
+      "rules": "2014"
+    },
+    "identifier": "i-the-zeroeth-crystal",
+    "type": {
+      "value": "class",
+      "subtype": ""
+    },
+    "requirements": "Warlock 3rd level",
+    "uses": {
+      "spent": 0,
+      "max": "",
+      "recovery": []
+    },
+    "activities": {}
+  },
+  "effects": [],
+  "folder": "apSoulFlameFold1",
+  "sort": 300000,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "Autistic_Premades": {
+      "identifier": "i-the-zeroeth-crystal"
+    }
+  },
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule00000000"
+  }
+}

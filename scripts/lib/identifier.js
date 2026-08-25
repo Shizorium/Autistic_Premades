@@ -18,6 +18,15 @@ export const FADE_SERUM_FIRE_ID = "fade-serum-fire";
 export const FADE_SERUM_BLOOD_ID = "fade-serum-blood";
 export const FADE_SERUM_TEARS_ID = "fade-serum-tears";
 export const FADE_SERUM_HEAL_ID = "fade-serum-heal";
+export const SOUL_FLAME_SUBCLASS_ID = "soul-flame";
+export const SOUL_FLAME_MAIN_ID = "we-both-flame-and-light";
+export const SOUL_FLAME_BLAZE_ID = "you-the-heartfelt-blaze";
+export const SOUL_FLAME_CRYSTAL_ID = "i-the-zeroeth-crystal";
+export const SOUL_FLAME_SERPENT_ID = "we-the-heavenly-serpent";
+export const SOUL_FLAME_CRYSTAL_ESCAPE_ID = "soul-flame-crystal-escape";
+export const SOLAR_STORM_ID = "solar-storm";
+export const SOLAR_STORM_RAY_ID = "solar-storm-ray";
+export const FIRE_INCARNATE_ID = "fire-incarnate";
 
 export function getItemIdentifier(item) {
   return item?.flags?.[MODULE_ID]?.identifier || item?.system?.identifier || "";

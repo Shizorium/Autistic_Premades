@@ -12,6 +12,14 @@ export async function applyActorDamage(actor, damages, options = {}) {
   return actor.applyDamage(damages, options);
 }
 
+export async function updateActorDocument(actor, changes) {
+  if (!actor) return null;
+  if (game.user.isGM || actor.isOwner) return actor.update(changes);
+  const socket = globalThis.autisticPremades?.socket;
+  if (socket) return socket.executeAsGM("updateActor", actor.uuid, changes);
+  return actor.update(changes);
+}
+
 export async function postFlavorChat(actor, content) {
   if (!actor) return;
   await ChatMessage.create({
