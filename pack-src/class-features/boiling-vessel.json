@@ -1,0 +1,119 @@
+{
+  "_id": "apBoilingVessel0",
+  "_key": "!items!apBoilingVessel0",
+  "name": "Кипящий Сосуд",
+  "type": "feat",
+  "img": "icons/magic/fire/flame-burning-earth-yellow.webp",
+  "system": {
+    "description": {
+      "value": "<p>Выбранное существо должно пройти спасбросок Выносливости по сложности 14. При провале, оно начинает закипать заживо, получая помеху на все броски Силы, Ловкости и Выносливости и нанося себе 5 урона Огнем в начале каждого своего хода в течение минуты, повторяя спасбросок в конце каждого своего хода. Концентрация.</p>",
+      "chat": ""
+    },
+    "source": {
+      "custom": "Autistic Premades",
+      "revision": 1,
+      "rules": "2014"
+    },
+    "identifier": "boiling-vessel",
+    "type": {
+      "value": "monster",
+      "subtype": ""
+    },
+    "requirements": "",
+    "uses": {
+      "spent": 0,
+      "max": "",
+      "recovery": []
+    },
+    "activities": {
+      "apBoilSave000001": {
+        "_id": "apBoilSave000001",
+        "type": "save",
+        "name": "",
+        "sort": 0,
+        "activation": {
+          "type": "action",
+          "value": 1,
+          "condition": "",
+          "override": false
+        },
+        "consumption": {
+          "targets": [],
+          "scaling": {
+            "allowed": false,
+            "max": ""
+          },
+          "spellSlot": false
+        },
+        "description": {
+          "chatFlavor": ""
+        },
+        "duration": {
+          "concentration": true,
+          "value": "1",
+          "units": "minute",
+          "special": "",
+          "override": false
+        },
+        "effects": [],
+        "range": {
+          "units": "spec",
+          "value": "",
+          "special": "",
+          "override": false
+        },
+        "target": {
+          "template": {
+            "contiguous": false,
+            "type": "",
+            "size": "",
+            "units": "ft"
+          },
+          "affects": {
+            "count": "1",
+            "type": "creature",
+            "choice": false,
+            "special": ""
+          },
+          "override": false,
+          "prompt": true
+        },
+        "uses": {
+          "spent": 0,
+          "max": "",
+          "recovery": []
+        },
+        "damage": {
+          "onSave": "none",
+          "parts": []
+        },
+        "save": {
+          "ability": ["con"],
+          "dc": {
+            "calculation": "",
+            "formula": "14"
+          }
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": "apNpcFolder00001",
+  "sort": 100000,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "Autistic_Premades": {
+      "identifier": "boiling-vessel"
+    }
+  },
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule00000000"
+  }
+}

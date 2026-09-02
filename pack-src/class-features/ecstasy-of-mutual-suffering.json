@@ -1,0 +1,119 @@
+{
+  "_id": "apEcstasySuffer1",
+  "_key": "!items!apEcstasySuffer1",
+  "name": "Экстаз Обоюдных Страданий",
+  "type": "feat",
+  "img": "icons/magic/unholy/strike-beam-blood-large-red-yellow.webp",
+  "system": {
+    "description": {
+      "value": "<p>Выбранное существо должно пройти спасбросок Мудрости по сложности 14 или стать связанным с Кровавой Ведьмой на 3 раунда. Пока существа связаны, они делят урон, который им наносится, пополам. Урон, который существо и ведьма наносят сами себе наносит обоим в полной мере. Связь усиливает Кровавую Ведьму, давая ей преимущество на все броски, пока способность активна.</p>",
+      "chat": ""
+    },
+    "source": {
+      "custom": "Autistic Premades",
+      "revision": 1,
+      "rules": "2014"
+    },
+    "identifier": "ecstasy-of-mutual-suffering",
+    "type": {
+      "value": "monster",
+      "subtype": ""
+    },
+    "requirements": "",
+    "uses": {
+      "spent": 0,
+      "max": "",
+      "recovery": []
+    },
+    "activities": {
+      "apEcstasySave001": {
+        "_id": "apEcstasySave001",
+        "type": "save",
+        "name": "",
+        "sort": 0,
+        "activation": {
+          "type": "action",
+          "value": 1,
+          "condition": "",
+          "override": false
+        },
+        "consumption": {
+          "targets": [],
+          "scaling": {
+            "allowed": false,
+            "max": ""
+          },
+          "spellSlot": false
+        },
+        "description": {
+          "chatFlavor": ""
+        },
+        "duration": {
+          "concentration": false,
+          "value": "3",
+          "units": "round",
+          "special": "",
+          "override": false
+        },
+        "effects": [],
+        "range": {
+          "units": "spec",
+          "value": "",
+          "special": "",
+          "override": false
+        },
+        "target": {
+          "template": {
+            "contiguous": false,
+            "type": "",
+            "size": "",
+            "units": "ft"
+          },
+          "affects": {
+            "count": "1",
+            "type": "creature",
+            "choice": false,
+            "special": ""
+          },
+          "override": false,
+          "prompt": true
+        },
+        "uses": {
+          "spent": 0,
+          "max": "",
+          "recovery": []
+        },
+        "damage": {
+          "onSave": "none",
+          "parts": []
+        },
+        "save": {
+          "ability": ["wis"],
+          "dc": {
+            "calculation": "",
+            "formula": "14"
+          }
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": "apNpcFolder00001",
+  "sort": 200000,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "Autistic_Premades": {
+      "identifier": "ecstasy-of-mutual-suffering"
+    }
+  },
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule00000000"
+  }
+}

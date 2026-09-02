@@ -6,7 +6,7 @@
   "img": "icons/magic/fire/projectile-wave-arrow.webp",
   "system": {
     "description": {
-      "value": "<p>Подкласс колдуна. На 3 уровне даёт особенности: <strong>We, both Flame and Light</strong>, <strong>You, the Heartfelt Blaze</strong>, <strong>I, the Zeroeth Crystal</strong> и <strong>We, the Heavenly Serpent</strong>.</p>",
+      "value": "<p>Подкласс колдуна. На 3 уровне даёт особенности: <strong>We, both Flame and Light</strong>, <strong>You, the Heartfelt Blaze</strong>, <strong>I, the Zeroeth Crystal</strong> и <strong>We, the Heavenly Serpent</strong>. На 6 уровне — <strong>You and Me, Aeternally</strong>.</p>",
       "chat": ""
     },
     "source": {
@@ -51,6 +51,24 @@
         },
         "value": {},
         "level": 3,
+        "title": "",
+        "hint": ""
+      },
+      "apSoulGrantLv006": {
+        "_id": "apSoulGrantLv006",
+        "type": "ItemGrant",
+        "configuration": {
+          "items": [
+            {
+              "uuid": "Compendium.Autistic_Premades.ap-class-features.Item.apYouMeAeternal1",
+              "optional": false
+            }
+          ],
+          "optional": false,
+          "spell": null
+        },
+        "value": {},
+        "level": 6,
         "title": "",
         "hint": ""
       }

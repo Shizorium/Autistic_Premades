@@ -27,6 +27,10 @@ export const SOUL_FLAME_CRYSTAL_ESCAPE_ID = "soul-flame-crystal-escape";
 export const SOLAR_STORM_ID = "solar-storm";
 export const SOLAR_STORM_RAY_ID = "solar-storm-ray";
 export const FIRE_INCARNATE_ID = "fire-incarnate";
+export const PROTECTORS_EYE_ID = "protectors-eye";
+export const YOU_AND_ME_AETERNALLY_ID = "you-and-me-aeternally";
+export const BOILING_VESSEL_ID = "boiling-vessel";
+export const ECSTASY_OF_MUTUAL_SUFFERING_ID = "ecstasy-of-mutual-suffering";
 
 export function getItemIdentifier(item) {
   return item?.flags?.[MODULE_ID]?.identifier || item?.system?.identifier || "";

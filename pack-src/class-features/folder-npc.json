@@ -1,0 +1,20 @@
+{
+  "_id": "apNpcFolder00001",
+  "_key": "!folders!apNpcFolder00001",
+  "name": "НПС",
+  "type": "Item",
+  "description": "",
+  "folder": null,
+  "sorting": "a",
+  "sort": 300000,
+  "color": "#6b1520",
+  "flags": {},
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule00000000"
+  }
+}

@@ -12,6 +12,18 @@ export async function applyActorDamage(actor, damages, options = {}) {
   return actor.applyDamage(damages, options);
 }
 
+export async function applyTempHp(actor, amount) {
+  if (!actor) return null;
+  const value = Math.floor(Number(amount) || 0);
+  if (value <= 0) return actor;
+  if (typeof actor.applyTempHP === "function" && (game.user.isGM || actor.isOwner)) {
+    return actor.applyTempHP(value);
+  }
+  const current = Number(actor.system?.attributes?.hp?.temp) || 0;
+  if (value <= current) return actor;
+  return updateActorDocument(actor, { "system.attributes.hp.temp": value });
+}
+
 export async function updateActorDocument(actor, changes) {
   if (!actor) return null;
   if (game.user.isGM || actor.isOwner) return actor.update(changes);

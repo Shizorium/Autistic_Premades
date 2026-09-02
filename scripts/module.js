@@ -13,6 +13,10 @@ import { registerFadeSerums } from "./features/fade-serums.js";
 import { registerSoulFlame } from "./features/soul-flame.js";
 import { registerSolarStorm } from "./features/solar-storm.js";
 import { registerFireIncarnate } from "./features/fire-incarnate.js";
+import { registerProtectorsEye } from "./features/protectors-eye.js";
+import { registerYouAndMeAeternally } from "./features/you-and-me-aeternally.js";
+import { registerBoilingVessel } from "./features/boiling-vessel.js";
+import { registerEcstasyOfMutualSuffering } from "./features/ecstasy-of-mutual-suffering.js";
 
 Hooks.once("init", () => {
   console.log("Autistic Premades | Initialized");
@@ -80,4 +84,8 @@ Hooks.once("ready", () => {
   registerSoulFlame();
   registerSolarStorm();
   registerFireIncarnate();
+  registerProtectorsEye();
+  registerYouAndMeAeternally();
+  registerBoilingVessel();
+  registerEcstasyOfMutualSuffering();
 });

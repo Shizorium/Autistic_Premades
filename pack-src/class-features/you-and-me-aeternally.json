@@ -1,0 +1,128 @@
+{
+  "_id": "apYouMeAeternal1",
+  "_key": "!items!apYouMeAeternal1",
+  "name": "You and Me, Aeternally",
+  "type": "feat",
+  "img": "icons/magic/control/energy-stream-link-white.webp",
+  "system": {
+    "description": {
+      "value": "<p>В начале своего хода вы можете потянуться к —— на следующую минуту, после чего оно растворится. Пока эффект активен, вы получаете временные хиты, равные 5 + ваш уровень чернокнижника, сопротивление урону холодом и иммунитет к состояниям Испуганный и Очарованный. В начале каждого вашего хода восстанавливается один заряд <strong>We, both Flame and Light</strong>. Можно использовать один раз за долгий отдых.</p>",
+      "chat": ""
+    },
+    "source": {
+      "custom": "Autistic Premades",
+      "revision": 1,
+      "rules": "2014"
+    },
+    "identifier": "you-and-me-aeternally",
+    "type": {
+      "value": "class",
+      "subtype": ""
+    },
+    "requirements": "Warlock 6th level",
+    "uses": {
+      "spent": 0,
+      "max": "1",
+      "recovery": [
+        {
+          "period": "lr",
+          "type": "recoverAll"
+        }
+      ]
+    },
+    "activities": {
+      "apYouMeAetUse001": {
+        "_id": "apYouMeAetUse001",
+        "type": "utility",
+        "name": "",
+        "sort": 0,
+        "activation": {
+          "type": "special",
+          "value": 1,
+          "condition": "",
+          "override": false
+        },
+        "consumption": {
+          "targets": [
+            {
+              "type": "itemUses",
+              "target": "",
+              "value": "1",
+              "scaling": {
+                "mode": "",
+                "formula": ""
+              }
+            }
+          ],
+          "scaling": {
+            "allowed": false,
+            "max": ""
+          },
+          "spellSlot": false
+        },
+        "description": {
+          "chatFlavor": ""
+        },
+        "duration": {
+          "concentration": false,
+          "value": "1",
+          "units": "minute",
+          "special": "",
+          "override": false
+        },
+        "effects": [],
+        "range": {
+          "units": "self",
+          "special": "",
+          "override": false
+        },
+        "target": {
+          "template": {
+            "contiguous": false,
+            "type": "",
+            "size": "",
+            "units": "ft"
+          },
+          "affects": {
+            "count": "",
+            "type": "self",
+            "choice": false,
+            "special": ""
+          },
+          "override": false,
+          "prompt": false
+        },
+        "uses": {
+          "spent": 0,
+          "max": "",
+          "recovery": []
+        },
+        "roll": {
+          "formula": "",
+          "name": "",
+          "prompt": false,
+          "visible": false
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": "apSoulFlameFold1",
+  "sort": 500000,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "Autistic_Premades": {
+      "identifier": "you-and-me-aeternally"
+    }
+  },
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule00000000"
+  }
+}

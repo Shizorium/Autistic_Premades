@@ -1,0 +1,113 @@
+{
+  "_id": "apProtectorsEye0",
+  "_key": "!items!apProtectorsEye0",
+  "name": "Protector’s Eye",
+  "type": "feat",
+  "img": "icons/magic/perception/eye-ringed-glow-angry-large-teal.webp",
+  "system": {
+    "description": {
+      "value": "<p>Бонусным действием вы можете снять (или надеть обратно) повязку с небесного глаза и активировать эту способность. Пока повязка снята, вас невозможно застать врасплох и у вас всегда будет возможность отреагировать; только Затмение, некоторые Кураторы, Стражи, Правители и Три Сестры могут обойти это правило. Ваши активные броски Проницательности и Внимательности получают +10. Пассивные Проницательность и Восприятие становятся равны 20. Пока снята повязка, у вас помеха на все броски атаки — чёткость сбивает вас с толку.</p><p>Позволяет наблюдать Прану окружающих.</p>",
+      "chat": ""
+    },
+    "source": {
+      "custom": "Autistic Premades",
+      "revision": 1,
+      "rules": "2014"
+    },
+    "identifier": "protectors-eye",
+    "type": {
+      "value": "class",
+      "subtype": ""
+    },
+    "requirements": "Paladin",
+    "uses": {
+      "spent": 0,
+      "max": "",
+      "recovery": []
+    },
+    "activities": {
+      "apProtectToggle0": {
+        "_id": "apProtectToggle0",
+        "type": "utility",
+        "name": "Тоггл",
+        "sort": 0,
+        "activation": {
+          "type": "bonus",
+          "value": 1,
+          "condition": "",
+          "override": false
+        },
+        "consumption": {
+          "targets": [],
+          "scaling": {
+            "allowed": false,
+            "max": ""
+          },
+          "spellSlot": true
+        },
+        "description": {
+          "chatFlavor": ""
+        },
+        "duration": {
+          "concentration": false,
+          "value": "",
+          "units": "",
+          "special": "",
+          "override": false
+        },
+        "effects": [],
+        "range": {
+          "units": "self",
+          "special": "",
+          "override": false
+        },
+        "target": {
+          "template": {
+            "contiguous": false,
+            "type": "",
+            "size": "",
+            "units": "ft"
+          },
+          "affects": {
+            "count": "",
+            "type": "self",
+            "choice": false,
+            "special": ""
+          },
+          "override": false,
+          "prompt": false
+        },
+        "uses": {
+          "spent": 0,
+          "max": "",
+          "recovery": []
+        },
+        "roll": {
+          "formula": "",
+          "name": "",
+          "prompt": false,
+          "visible": false
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": "apPaladinFolder1",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "Autistic_Premades": {
+      "identifier": "protectors-eye"
+    }
+  },
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule00000000"
+  }
+}
