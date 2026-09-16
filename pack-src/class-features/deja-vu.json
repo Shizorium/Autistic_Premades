@@ -1,0 +1,128 @@
+{
+  "_id": "apDejaVuFeat0001",
+  "_key": "!items!apDejaVuFeat0001",
+  "name": "Дежавю́",
+  "type": "feat",
+  "img": "icons/magic/perception/third-eye-blue-red.webp",
+  "system": {
+    "description": {
+      "value": "<p>Восприятие мира изменилось, и не в лучшую сторону, но из этого можно почерпнуть пользу.</p><p>Один раз за долгий отдых, бонусным действием, на минуту, ты можешь позволить ощущению двойственности окружения взять верх и слиться с ним в один поток, получая следующие бонусы:</p><ul><li>Количество реакций увеличивается на один, дополнительную реакцию можно использовать только на эффекты ниже.</li><li>Реакцией ты можешь дать видимому существу помеху на все броски атаки по тебе до конца его хода.</li><li>Реакцией ты можешь переместиться на 10 футов от эпицентра Мрака, если он появляется в области, которую ты занимаешь.</li><li>Реакцией ты можешь получить +5 на любой спасбросок.</li><li>Реакцией ты можешь преуспеть в спасброске концентрации.</li><li>Реакцией, один раз за бой, ты можешь заставить промахнуться бросок атаки, направленный против тебя. Если атака застала врасплох, тебе сначала нужно будет сделать бросок Восприятия с +5 против Скрытности атакующего.</li><li>Каждый раунд в бою, проведённый в этом состоянии, даёт +1 к КБ (лимит — текущий уровень мастерства).</li></ul><p>По окончанию способности тебя одолевает <strong>Мрак в глазах, Мрак в душе</strong>, который закончится через ход.</p><p>Использование способности можно восстановить, потратив 5 спеллпоинтов.</p>",
+      "chat": ""
+    },
+    "source": {
+      "custom": "Autistic Premades",
+      "revision": 1,
+      "rules": "2014"
+    },
+    "identifier": "deja-vu",
+    "type": {
+      "value": "class",
+      "subtype": ""
+    },
+    "requirements": "6th level",
+    "uses": {
+      "spent": 0,
+      "max": "1",
+      "recovery": [
+        {
+          "period": "lr",
+          "type": "recoverAll"
+        }
+      ]
+    },
+    "activities": {
+      "apDejaVuUse00001": {
+        "_id": "apDejaVuUse00001",
+        "type": "utility",
+        "name": "",
+        "sort": 0,
+        "activation": {
+          "type": "bonus",
+          "value": 1,
+          "condition": "",
+          "override": false
+        },
+        "consumption": {
+          "targets": [
+            {
+              "type": "itemUses",
+              "target": "",
+              "value": "1",
+              "scaling": {
+                "mode": "",
+                "formula": ""
+              }
+            }
+          ],
+          "scaling": {
+            "allowed": false,
+            "max": ""
+          },
+          "spellSlot": false
+        },
+        "description": {
+          "chatFlavor": ""
+        },
+        "duration": {
+          "concentration": false,
+          "value": "1",
+          "units": "minute",
+          "special": "",
+          "override": false
+        },
+        "effects": [],
+        "range": {
+          "units": "self",
+          "special": "",
+          "override": false
+        },
+        "target": {
+          "template": {
+            "contiguous": false,
+            "type": "",
+            "size": "",
+            "units": "ft"
+          },
+          "affects": {
+            "count": "",
+            "type": "self",
+            "choice": false,
+            "special": ""
+          },
+          "override": false,
+          "prompt": false
+        },
+        "uses": {
+          "spent": 0,
+          "max": "",
+          "recovery": []
+        },
+        "roll": {
+          "formula": "",
+          "name": "",
+          "prompt": false,
+          "visible": false
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "Autistic_Premades": {
+      "identifier": "deja-vu"
+    }
+  },
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule00000000"
+  }
+}

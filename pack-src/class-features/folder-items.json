@@ -1,0 +1,20 @@
+{
+  "_id": "apItemsFolder001",
+  "_key": "!folders!apItemsFolder001",
+  "name": "Предметы",
+  "type": "Item",
+  "description": "",
+  "folder": null,
+  "sorting": "a",
+  "sort": 400000,
+  "color": "#b35c1e",
+  "flags": {},
+  "_stats": {
+    "systemId": "dnd5e",
+    "systemVersion": "5.3.3",
+    "coreVersion": "13.348",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "apmodule00000000"
+  }
+}

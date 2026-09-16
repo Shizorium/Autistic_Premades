@@ -749,7 +749,7 @@ async function createSceneEmbedded(scene, documentName, data) {
   return scene.createEmbeddedDocuments(documentName, data);
 }
 
-export async function updateTokenPosition(tokenDoc, point) {
+export async function updateTokenPosition(tokenDoc, point, options = {}) {
   if (!tokenDoc || !point) return null;
   const size = canvas.grid?.size || 100;
   const x = point.x - ((tokenDoc.width ?? 1) * size) / 2;
@@ -759,10 +759,10 @@ export async function updateTokenPosition(tokenDoc, point) {
     { mode: CONST.GRID_SNAPPING_MODES?.TOP_LEFT_CORNER ?? CONST.GRID_SNAPPING_MODES?.CORNER ?? 0 }
   ) ?? { x, y };
   const changes = { x: snapped.x, y: snapped.y };
-  if (game.user.isGM || tokenDoc.isOwner) return tokenDoc.update(changes);
+  if (game.user.isGM || tokenDoc.isOwner) return tokenDoc.update(changes, options);
   const socket = globalThis.autisticPremades?.socket;
-  if (socket) return socket.executeAsGM("updateToken", tokenDoc.uuid, changes);
-  return tokenDoc.update(changes);
+  if (socket) return socket.executeAsGM("updateToken", tokenDoc.uuid, changes, options);
+  return tokenDoc.update(changes, options);
 }
 
 export async function mutateActor(actor, method, documentName, payload) {

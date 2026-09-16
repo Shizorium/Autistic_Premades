@@ -17,6 +17,8 @@ import { registerProtectorsEye } from "./features/protectors-eye.js";
 import { registerYouAndMeAeternally } from "./features/you-and-me-aeternally.js";
 import { registerBoilingVessel } from "./features/boiling-vessel.js";
 import { registerEcstasyOfMutualSuffering } from "./features/ecstasy-of-mutual-suffering.js";
+import { registerFanQuestion } from "./features/fan-question.js";
+import { registerDejaVu, showDejaVuPrompt } from "./features/deja-vu.js";
 
 Hooks.once("init", () => {
   console.log("Autistic Premades | Initialized");
@@ -49,10 +51,10 @@ function registerSocket() {
     if (!scene) return [];
     return scene.createEmbeddedDocuments("MeasuredTemplate", data);
   });
-  socket.register("updateToken", async (uuid, changes) => {
+  socket.register("updateToken", async (uuid, changes, options = {}) => {
     const doc = await fromUuid(uuid);
     if (!doc) return null;
-    return doc.update(changes);
+    return doc.update(changes, options);
   });
   socket.register("applyDamage", async (uuid, damages, options = {}) => {
     const doc = await fromUuid(uuid);
@@ -64,6 +66,7 @@ function registerSocket() {
     if (!doc) return null;
     return doc.update(changes);
   });
+  socket.register("dejaVuPrompt", showDejaVuPrompt);
   globalThis.autisticPremades ??= {};
   globalThis.autisticPremades.socket = socket;
 }
@@ -88,4 +91,6 @@ Hooks.once("ready", () => {
   registerYouAndMeAeternally();
   registerBoilingVessel();
   registerEcstasyOfMutualSuffering();
+  registerFanQuestion();
+  registerDejaVu();
 });

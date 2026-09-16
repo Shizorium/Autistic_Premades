@@ -31,6 +31,9 @@ export const PROTECTORS_EYE_ID = "protectors-eye";
 export const YOU_AND_ME_AETERNALLY_ID = "you-and-me-aeternally";
 export const BOILING_VESSEL_ID = "boiling-vessel";
 export const ECSTASY_OF_MUTUAL_SUFFERING_ID = "ecstasy-of-mutual-suffering";
+export const FAN_QUESTION_ID = "fan-question";
+export const ASHEN_SPARK_ID = "ashen-spark";
+export const DEJA_VU_ID = "deja-vu";
 
 export function getItemIdentifier(item) {
   return item?.flags?.[MODULE_ID]?.identifier || item?.system?.identifier || "";
