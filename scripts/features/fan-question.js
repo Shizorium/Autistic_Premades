@@ -182,7 +182,6 @@ async function activateGemini(item) {
 }
 
 async function activateCipher(item) {
-  const actor = item.actor;
   const table = getLieTable();
   if (!table) {
     await refundActivityUse(item, CIPHER_ACTIVITY_ID);
@@ -190,17 +189,7 @@ async function activateCipher(item) {
     return;
   }
 
-  for (let attempt = 0; attempt < 8; attempt++) {
-    const drawn = await table.draw({ displayChat: true });
-    if (!isRerollResult(drawn?.results?.[0])) return;
-  }
-}
-
-function isRerollResult(result) {
-  if (!result) return false;
-  const range = result.range ?? [];
-  if (Number(range[0]) === 48 || (Number(range[0]) <= 48 && Number(range[1]) >= 48)) return true;
-  return String(result.name ?? "").trim() === "???";
+  await table.draw({ displayChat: true });
 }
 
 function getLieTable() {

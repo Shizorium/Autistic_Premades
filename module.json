@@ -2,7 +2,7 @@
   "id": "Autistic_Premades",
   "title": "Autistic Premades",
   "description": "A Foundry VTT module of premade automations.",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "compatibility": {
     "minimum": "13",
     "verified": "13"
