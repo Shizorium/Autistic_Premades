@@ -399,22 +399,27 @@ async function requestSideEffectPrompt(payload) {
 export async function promptFromTheAshesSideEffect(payload = {}) {
   if (!game.user.isGM) return;
   const { spellName = "", actorName = "" } = payload;
+  const stamp = foundry.utils.randomID?.(8) ?? `${Date.now()}`;
+  const detachTooltips = attachSideEffectTooltips(stamp);
 
   let chosen;
   try {
     chosen = await foundry.applications.api.DialogV2.wait({
       window: { title: "Из Праха — побочный эффект" },
       position: { width: 520 },
-      content: `<p><strong>${escapeHtml(actorName)}</strong> применяет <strong>${escapeHtml(spellName)}</strong>.</p>`,
+      content: `<p data-ap-ashes="${stamp}"><strong>${escapeHtml(actorName)}</strong> применяет <strong>${escapeHtml(spellName)}</strong>.</p>`,
       buttons: SIDE_EFFECTS.map((entry) => ({
         action: entry.id,
         label: entry.name,
         callback: () => entry
       })),
-      rejectClose: false
+      rejectClose: false,
+      render: (_event, dialog) => bindSideEffectTooltips(dialog?.element ?? dialog, stamp)
     });
   } catch {
     return;
+  } finally {
+    detachTooltips();
   }
 
   const effect = typeof chosen === "object" && chosen?.name
@@ -428,6 +433,28 @@ export async function promptFromTheAshesSideEffect(payload = {}) {
   });
 
   await runFromTheAshesAutomation(effect.id, payload);
+}
+
+function attachSideEffectTooltips(stamp) {
+  const bind = (app, element) => {
+    const root = element instanceof HTMLElement ? element : app?.element;
+    bindSideEffectTooltips(root, stamp);
+  };
+  const hookA = Hooks.on("renderDialogV2", bind);
+  const hookB = Hooks.on("renderApplicationV2", bind);
+  return () => {
+    Hooks.off("renderDialogV2", hookA);
+    Hooks.off("renderApplicationV2", hookB);
+  };
+}
+
+function bindSideEffectTooltips(root, stamp) {
+  if (!root?.querySelector?.(`[data-ap-ashes="${stamp}"]`)) return;
+  for (const button of root.querySelectorAll("button[data-action]")) {
+    const effect = SIDE_EFFECTS.find((entry) => entry.id === button.dataset.action);
+    if (!effect) continue;
+    button.dataset.tooltip = effect.description;
+  }
 }
 
 function onRestCompleted(actor, result, config) {
